@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e0f13">
+<title>Pizza Detector</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nGPkFwn4zzCAgIWJlW0g7R91AG4HvLiewCChuYDmDmCU1M0b3onwydkQBhnjNQPnADmLTQz47MBwwIPDMQwKtkswFGovgtBX47AbBJPHpwYbYFR0bCM6DWjO/QVnX09mIyhODCA6CtRnfGFgYGBguHHtFtRSNbgcTExDS41Bc+4vhpsZPEQ7gFHVexLRIaA6+R2KpRpaanAaBm7nChFtOQMDAwOjesAMkrNhCtdkBgYGBoY533JJ1YrpAM3QeWSVA0msvQwMDAwM834XU+QAirMhpfrJd8Bv6jiAkavnBNlFceO5ZAYGBgaGeqO5ZDuAhenPX5I0vPBYBWdPPwehX7ksR1EjsSOMaPMY+VoOERUCz3zWMjAwMDCwCcoSVPvr/WMGBgYGBqktwQTVEgyBJwEbiLYYBmBqYY6W2RDAwMDAwBAS47B1zZID3shqmZj+/GVAxyExDlthbGoAmFnrFuz1RrcLawhsmLPLmwlNDBaspEQBsgNwAUaxkm1EpYF7MTuJUQYHBTwTtm6asd2bkDpGiYLNJGXDOwl7CKpRWeBCtHkkZ8MCnglbt03YiNdnTAzEm8kok7F2gNuEVErpow4YdcCQdQAAaZSo8sgEIX8AAAAASUVORK5CYII=">
+<style>
+  /* ---- sebland mobile baseline reset ---- */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  input, select, textarea { font-size: 16px; }
+  html { background: #0e0f13; }
+  html, body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: clip;
+  }
+  [hidden] { display: none !important; }
+
+  body {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #e8eaf0;
+    background:
+      radial-gradient(900px 480px at 50% -120px, rgba(255, 183, 3, 0.09), transparent 62%),
+      #0e0f13;
+    padding: calc(18px + env(safe-area-inset-top))
+             calc(16px + env(safe-area-inset-right))
+             calc(12px + env(safe-area-inset-bottom))
+             calc(16px + env(safe-area-inset-left));
+  }
+
+  main {
+    width: 100%;
+    max-width: 660px;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  main > * { min-width: 0; }
+
+  header { text-align: center; padding-top: 8px; }
+  h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.01em; }
+  .tagline { margin-top: 6px; color: #9aa1ad; font-size: 14px; }
+
+  /* ---- idle: dropzone ---- */
+  .dropzone {
+    border: 2px dashed rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.02);
+    text-align: center;
+    padding: 44px 20px 38px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .dropzone:hover, .drag .dropzone {
+    border-color: #ffb703;
+    background: rgba(255, 183, 3, 0.06);
+  }
+  .dz-emoji {
+    font-size: 54px;
+    line-height: 1.15;
+    filter: drop-shadow(0 8px 22px rgba(255, 183, 3, 0.35));
+  }
+  .dz-title { margin-top: 14px; font-size: 17px; font-weight: 650; }
+  .dropzone .btn { margin-top: 18px; }
+  .dz-hint { margin-top: 16px; color: #9aa1ad; font-size: 13px; }
+  kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #cdd3dd;
+    background: #1d212b;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    padding: 2px 6px;
+  }
+
+  /* ---- buttons ---- */
+  .btn {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    color: #221703;
+    background: #ffb703;
+    border-radius: 999px;
+    padding: 11px 24px;
+    min-height: 44px;
+    transition: filter 0.12s ease, transform 0.08s ease;
+  }
+  .btn:hover { filter: brightness(1.07); }
+  .btn:active { transform: translateY(1px); }
+  .btn:focus-visible { outline: 2px solid #ffb703; outline-offset: 2px; }
+  .btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e8eaf0;
+    font-weight: 600;
+  }
+  .btn.ghost:hover { filter: none; border-color: rgba(255, 255, 255, 0.4); }
+
+  /* ---- stage: image + boxes ---- */
+  .canvas-wrap {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+    background: #14161c;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .canvas-wrap.busy canvas { filter: brightness(0.68) saturate(0.75); }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 14px;
+    background: rgba(10, 11, 14, 0.45);
+    text-align: center;
+    padding: 16px;
+  }
+  .spin { font-size: 48px; line-height: 1.15; animation: spin 1.15s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ov-text { font-size: 15px; font-weight: 650; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8); }
+  .pulse { animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.55; } }
+
+  .np {
+    position: relative;
+    width: 66px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 107, 94, 0.85);
+    border-radius: 50%;
+    background: rgba(10, 11, 14, 0.55);
+  }
+  .np::after {
+    content: "";
+    position: absolute;
+    width: 72%;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 107, 94, 0.85);
+    transform: rotate(-45deg);
+  }
+  .np-pz { font-size: 34px; line-height: 1; filter: grayscale(0.8); opacity: 0.75; }
+
+  .summary {
+    text-align: center;
+    margin-top: 12px;
+    min-height: 1.5em;
+    color: #cdd3dd;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .errorbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin-top: 10px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 107, 94, 0.35);
+    background: rgba(255, 107, 94, 0.08);
+    color: #ffb4ac;
+    border-radius: 12px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .errorbox > * { min-width: 0; }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .actions > * { min-width: 0; }
+
+  /* ---- drag veil ---- */
+  .dropveil {
+    position: fixed;
+    inset: 10px;
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ffb703;
+    border-radius: 18px;
+    background: rgba(14, 15, 19, 0.72);
+    color: #ffb703;
+    font-size: 19px;
+    font-weight: 750;
+    pointer-events: none;
+  }
+  .drag .dropveil { display: flex; }
+
+  /* ---- toast ---- */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 60;
+    transform: translateX(-50%) translateY(8px);
+    max-width: min(92vw, 480px);
+    background: #1d212b;
+    color: #e8eaf0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 14px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  footer {
+    flex-shrink: 0;
+    padding: 22px 0 6px;
+    color: #667085;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  @media (max-width: 420px) {
+    h1 { font-size: 23px; }
+    .dropzone { padding: 34px 14px 30px; }
+    .dz-emoji { font-size: 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="dropveil" aria-hidden="true">drop it 🍕</div>
+
+<main>
+  <header>
+    <h1>🍕 Pizza Detector</h1>
+    <p class="tagline">full pies, lone slices — if it&rsquo;s pizza, it gets a box.</p>
+  </header>
+
+  <section id="dropzone" class="dropzone">
+    <div class="dz-emoji" aria-hidden="true">🍕</div>
+    <p class="dz-title">paste, drop, or upload an image</p>
+    <button id="uploadBtn" class="btn" type="button">Choose an image</button>
+    <p class="dz-hint">tip: <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>V</kbd> pastes straight from your clipboard</p>
+  </section>
+  <input id="fileInput" type="file" accept="image/*" hidden>
+
+  <section id="stage" hidden>
+    <div id="canvasWrap" class="canvas-wrap">
+      <canvas id="canvas" aria-label="uploaded image with pizza detections"></canvas>
+      <div id="spinOverlay" class="overlay" hidden>
+        <div class="spin" aria-hidden="true">🍕</div>
+        <p class="ov-text pulse">sniffing for pizza…</p>
+      </div>
+      <div id="noneOverlay" class="overlay" hidden>
+        <div class="np" aria-hidden="true"><span class="np-pz">🍕</span></div>
+        <p class="ov-text">No pizza detected</p>
+      </div>
+    </div>
+    <p id="summary" class="summary" aria-live="polite"></p>
+    <div id="errorBox" class="errorbox" hidden>
+      <span id="errorMsg"></span>
+      <button id="retryBtn" class="btn ghost" type="button">Retry</button>
+    </div>
+    <div class="actions">
+      <button id="againBtn" class="btn" type="button">Try another</button>
+    </div>
+  </section>
+
+  <noscript><p style="text-align:center;color:#ffb4ac">This app needs JavaScript.</p></noscript>
+</main>
+
+<footer>powered by RF-DETR (COCO)</footer>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var dropzone = $('dropzone');
+  var stage = $('stage');
+  var canvas = $('canvas');
+  var wrap = $('canvasWrap');
+  var spinOverlay = $('spinOverlay');
+  var noneOverlay = $('noneOverlay');
+  var summary = $('summary');
+  var errorBox = $('errorBox');
+  var errorMsg = $('errorMsg');
+  var retryBtn = $('retryBtn');
+  var againBtn = $('againBtn');
+  var uploadBtn = $('uploadBtn');
+  var fileInput = $('fileInput');
+  var toastEl = $('toast');
+  var ctx = canvas.getContext('2d');
+
+  var FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+  var MAX_SIDE = 1280;         // long-side cap before upload
+  var GOLD = '#ffb703';
+
+  var baseCanvas = null;       // offscreen canvas: the EXACT pixels we upload AND display
+  var currentBlob = null;      // jpeg blob of baseCanvas (sent to /detect; kept for Retry)
+  var lastResult = null;       // last successful /detect response
+  var ticket = 0;              // stale-response guard (bumped per new image / new request)
+
+  /* ---- mobile baseline: kill iOS loupe / selection ---- */
+  document.addEventListener('selectstart', function (e) { e.preventDefault(); });
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  /* =============== input path 1: paste =============== */
+  document.addEventListener('paste', function (e) {
+    var cd = e.clipboardData;
+    if (!cd) return;
+    var items = cd.items || [];
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (it.kind === 'file' && it.type && it.type.indexOf('image/') === 0) {
+        var f = it.getAsFile();
+        if (f) { e.preventDefault(); ingest(f); return; }
+      }
+    }
+    var files = cd.files || [];
+    for (var j = 0; j < files.length; j++) {
+      if (files[j].type && files[j].type.indexOf('image/') === 0) {
+        e.preventDefault(); ingest(files[j]); return;
+      }
+    }
+    /* non-image paste: ignore gracefully */
+  });
+
+  /* =============== input path 2: drag & drop =============== */
+  var dragDepth = 0;
+  function dtHasFiles(e) {
+    var t = e.dataTransfer;
+    if (!t || !t.types) return false;
+    for (var i = 0; i < t.types.length; i++) {
+      if (t.types[i] === 'Files') return true;
+    }
+    return false;
+  }
+  function fileFromDT(dt) {
+    if (!dt) return null;
+    var i, f;
+    if (dt.files) {
+      for (i = 0; i < dt.files.length; i++) {
+        f = dt.files[i];
+        if (f.type && f.type.indexOf('image/') === 0) return f;
+      }
+    }
+    if (dt.items) {
+      for (i = 0; i < dt.items.length; i++) {
+        var it = dt.items[i];
+        if (it.kind === 'file' && it.type && it.type.indexOf('image/') === 0) {
+          f = it.getAsFile();
+          if (f) return f;
+        }
+      }
+    }
+    return null;
+  }
+  document.addEventListener('dragenter', function (e) {
+    if (!dtHasFiles(e)) return;
+    e.preventDefault();
+    dragDepth++;
+    document.body.classList.add('drag');
+  });
+  document.addEventListener('dragover', function (e) {
+    if (dtHasFiles(e)) e.preventDefault();
+  });
+  document.addEventListener('dragleave', function () {
+    dragDepth--;
+    if (dragDepth <= 0) { dragDepth = 0; document.body.classList.remove('drag'); }
+  });
+  document.addEventListener('drop', function (e) {
+    e.preventDefault();
+    dragDepth = 0;
+    document.body.classList.remove('drag');
+    var f = fileFromDT(e.dataTransfer);
+    if (f) ingest(f);
+    else toast('Drop an image file (or paste a screenshot)');
+  });
+
+  /* =============== input path 3: file upload button =============== */
+  uploadBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    fileInput.click();
+  });
+  dropzone.addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (f) ingest(f);
+  });
+
+  /* =============== pipeline: decode -> downscale -> upload =============== */
+  function loadImage(blob) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(blob);
+      var img = new Image();
+      img.onload = function () { URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('decode failed')); };
+      img.src = url;
+    });
+  }
+
+  function downscale(img) {
+    var w = img.naturalWidth || img.width || 1;
+    var h = img.naturalHeight || img.height || 1;
+    var s = Math.min(1, MAX_SIDE / Math.max(w, h));
+    var dw = Math.max(1, Math.round(w * s));
+    var dh = Math.max(1, Math.round(h * s));
+    var c = document.createElement('canvas');
+    c.width = dw;
+    c.height = dh;
+    var cctx = c.getContext('2d');
+    cctx.imageSmoothingEnabled = true;
+    cctx.imageSmoothingQuality = 'high';
+    cctx.fillStyle = '#fff';           /* flatten alpha: JPEG has none */
+    cctx.fillRect(0, 0, dw, dh);
+    cctx.drawImage(img, 0, 0, dw, dh);
+    return c;
+  }
+
+  function toJpeg(c) {
+    return new Promise(function (resolve, reject) {
+      c.toBlob(function (b) {
+        if (b) resolve(b);
+        else reject(new Error('encode failed'));
+      }, 'image/jpeg', 0.9);
+    });
+  }
+
+  function ingest(file) {
+    if (file.type && file.type.indexOf('image/') !== 0) {
+      toast('That doesn’t look like an image');
+      return;
+    }
+    ticket++;  /* invalidate any in-flight request while we decode */
+    loadImage(file)
+      .then(function (img) {
+        baseCanvas = downscale(img);
+        lastResult = null;
+        return toJpeg(baseCanvas);
+      })
+      .then(function (blob) {
+        currentBlob = blob;
+        dropzone.hidden = true;
+        stage.hidden = false;
+        hideOverlays();
+        summary.textContent = '';
+        render();
+        detect();
+      })
+      .catch(function () {
+        toast('Could not read that image');
+      });
+  }
+
+  /* =============== /detect call =============== */
+  function detect() {
+    if (!currentBlob) return;
+    var my = ++ticket;
+    setAnalyzing(true);
+    var fd = new FormData();
+    fd.append('file', currentBlob, 'photo.jpg');
+    /* relative URL: '/detect' when served at /, and it still resolves
+       correctly if the app is ever mounted behind a path prefix */
+    fetch('detect', { method: 'POST', body: fd })
+      .then(function (resp) {
+        return resp.json()
+          .catch(function () { return null; })
+          .then(function (data) { return { resp: resp, data: data }; });
+      })
+      .then(function (r) {
+        if (my !== ticket) return;   /* a newer image/request superseded us */
+        if (!r.resp.ok) {
+          var msg = (r.data && r.data.error)
+            ? String(r.data.error)
+            : 'The detector hit an error (HTTP ' + r.resp.status + ').';
+          fail(msg);
+          return;
+        }
+        if (!r.data || !Array.isArray(r.data.detections)) {
+          fail('Unexpected response from the detector.');
+          return;
+        }
+        lastResult = r.data;
+        setAnalyzing(false);
+        render();
+        showResult(r.data);
+      })
+      .catch(function () {
+        if (my !== ticket) return;
+        fail('Can’t reach the detector — is the server up? Retry in a moment.');
+      });
+  }
+
+  function fail(msg) {
+    setAnalyzing(false);
+    lastResult = null;
+    render();                        /* plain image, no boxes */
+    errorMsg.textContent = msg;      /* textContent only: server strings stay inert */
+    errorBox.hidden = false;
+    summary.textContent = '';
+  }
+
+  function setAnalyzing(on) {
+    spinOverlay.hidden = !on;
+    wrap.classList.toggle('busy', on);
+    if (on) {
+      noneOverlay.hidden = true;
+      errorBox.hidden = true;
+      summary.textContent = '';
+    }
+  }
+
+  function hideOverlays() {
+    spinOverlay.hidden = true;
+    noneOverlay.hidden = true;
+    errorBox.hidden = true;
+    wrap.classList.remove('busy');
+  }
+
+  function showResult(data) {
+    var dets = data.detections;
+    var n = dets.length;
+    var ms = Math.round(Number(data.elapsed_ms));
+    var msTxt = isFinite(ms) ? ms + 'ms' : '';
+    if (n === 0) {
+      noneOverlay.hidden = false;
+      summary.textContent = 'no pizza' + (msTxt ? ' · ' + msTxt : '');
+      return;
+    }
+    var top = 0;
+    for (var i = 0; i < n; i++) top = Math.max(top, Number(dets[i].confidence) || 0);
+    var parts = [
+      n + ' pizza' + (n === 1 ? '' : 's') + ' found',
+      Math.round(top * 100) + '%' + (n > 1 ? ' top' : '')
+    ];
+    if (msTxt) parts.push(msTxt);
+    summary.textContent = parts.join(' · ');
+  }
+
+  /* =============== drawing =============== */
+  function render() {
+    if (!baseCanvas) return;
+    var cw = baseCanvas.width, chh = baseCanvas.height;
+    if (canvas.width !== cw) canvas.width = cw;
+    if (canvas.height !== chh) canvas.height = chh;
+    ctx.clearRect(0, 0, cw, chh);
+    ctx.drawImage(baseCanvas, 0, 0);
+    if (!lastResult || !Array.isArray(lastResult.detections)) return;
+
+    var rect = canvas.getBoundingClientRect();
+    var k = (rect.width > 0) ? (cw / rect.width) : 1;   /* internal px per CSS px */
+    /* boxes come back in uploaded-image pixels == baseCanvas pixels; keep a
+       defensive rescale in case the reported dims ever differ */
+    var sx = (Number(lastResult.image_width) > 0) ? (cw / Number(lastResult.image_width)) : 1;
+    var sy = (Number(lastResult.image_height) > 0) ? (chh / Number(lastResult.image_height)) : 1;
+    for (var i = 0; i < lastResult.detections.length; i++) {
+      drawDet(lastResult.detections[i], k, sx, sy, cw, chh);
+    }
+  }
+
+  function drawDet(d, k, sx, sy, cw, chh) {
+    var b = d.box || [0, 0, 0, 0];
+    var x1 = Math.min(Number(b[0]), Number(b[2])) * sx;
+    var y1 = Math.min(Number(b[1]), Number(b[3])) * sy;
+    var x2 = Math.max(Number(b[0]), Number(b[2])) * sx;
+    var y2 = Math.max(Number(b[1]), Number(b[3])) * sy;
+    var x = Math.max(0, x1), y = Math.max(0, y1);
+    var w = Math.min(cw, x2) - x, h = Math.min(chh, y2) - y;
+    if (!(w > 0 && h > 0)) return;
+
+    var lw = 3 * k;                          /* ~3 CSS px on screen */
+    var rad = Math.min(10 * k, w / 3, h / 3);
+
+    roundedRect(x, y, w, h, rad);
+    ctx.fillStyle = 'rgba(255, 183, 3, 0.08)';
+    ctx.fill();
+    roundedRect(x, y, w, h, rad);
+    ctx.lineWidth = lw;
+    ctx.strokeStyle = GOLD;
+    ctx.stroke();
+
+    /* label chip: `pizza  93%` */
+    var pct = Math.round((Number(d.confidence) || 0) * 100);
+    var text = (d.label || 'pizza') + '  ' + pct + '%';
+    var fs = 13 * k;
+    ctx.font = '700 ' + fs + 'px ' + FONT;
+    var padX = 8 * k, padY = 4.5 * k;
+    var tw = ctx.measureText(text).width;
+    var chipW = tw + 2 * padX;
+    var chipH = fs + 2 * padY;
+    var cx = x - lw / 2;
+    var cy = y - chipH - 5 * k;
+    if (cy < 2 * k) cy = y + lw + 2 * k;     /* clipped at top -> tuck inside */
+    cx = Math.max(2 * k, Math.min(cx, cw - chipW - 2 * k));
+    roundedRect(cx, cy, chipW, chipH, 6 * k);
+    ctx.fillStyle = GOLD;
+    ctx.fill();
+    ctx.fillStyle = '#231903';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    ctx.fillText(text, cx + padX, cy + chipH / 2 + 0.5 * k);
+  }
+
+  function roundedRect(x, y, w, h, r) {
+    r = Math.max(0, Math.min(r, w / 2, h / 2));
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  /* =============== controls =============== */
+  againBtn.addEventListener('click', function () {
+    ticket++;
+    baseCanvas = null;
+    currentBlob = null;
+    lastResult = null;
+    stage.hidden = true;
+    dropzone.hidden = false;
+    hideOverlays();
+    summary.textContent = '';
+  });
+  retryBtn.addEventListener('click', function () {
+    errorBox.hidden = true;
+    detect();
+  });
+
+  var resizeTimer = 0;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 120);
+  });
+
+  var toastTimer = 0;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('on'); }, 2600);
+  }
+})();
+</script>
+</body>
+</html>

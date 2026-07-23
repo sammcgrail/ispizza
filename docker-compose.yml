@@ -1,0 +1,10 @@
+services:
+  pizza:
+    build: .
+    container_name: pizza
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - "20070:8080"
+    mem_limit: 3g
+    cpus: 2.0

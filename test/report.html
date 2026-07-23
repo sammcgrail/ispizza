@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pizza Detector — Eval Report</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; min-width: 0; }
+  body { margin: 0; background: #0b0f14; color: #e5e9f0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-text-size-adjust: 100%; }
+  header { padding: 22px 20px 14px; border-bottom: 1px solid #1d2530; }
+  h1 { margin: 0 0 4px; font-size: 21px; } h1 span { color: #22c55e; }
+  .meta { color: #8a93a3; font-size: 13px; }
+  .tallies { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .t { background: #131a23; border: 1px solid #1f2937; border-radius: 10px; padding: 10px 16px; }
+  .t .n { font-size: 22px; font-weight: 700; } .t .l { font-size: 12px; color: #8a93a3; }
+  .t.ok .n { color: #22c55e; } .t.bad .n { color: #ef4444; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; padding: 16px 20px 40px; }
+  .card { background: #131a23; border: 1px solid #1f2937; border-radius: 12px; overflow: hidden; }
+  .imgwrap { background: #0d1117; } .imgwrap img { display: block; width: 100%; height: 260px; object-fit: contain; }
+  .body { padding: 10px 12px 12px; }
+  .row1 { display: flex; align-items: center; gap: 8px; }
+  .chip { color: #0b0f14; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 99px; letter-spacing: .4px; }
+  .fname { font-size: 12.5px; color: #c7cdd8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .badge { font-size: 11.5px; font-weight: 800; padding: 3px 9px; border-radius: 6px; letter-spacing: .5px; }
+  .badge.pass { background: #123723; color: #22c55e; border: 1px solid #22c55e; }
+  .badge.fail { background: #3a1214; color: #ef4444; border: 1px solid #ef4444; }
+  .desc { color: #aeb6c2; font-size: 12.5px; margin-top: 6px; }
+  .kv { font-size: 12.5px; color: #c7cdd8; margin-top: 6px; } .kv b { color: #e5e9f0; }
+  .seen { font-size: 11.5px; color: #7d8797; margin-top: 5px; font-family: ui-monospace, monospace; }
+</style></head><body>
+<header>
+  <h1><span>Pizza Detector</span> — Evaluation Report</h1>
+  <div class="meta">RF-DETR base (COCO) &middot; production predicate: class name contains "pizza" &middot; threshold 0.35 &middot; model load 4.6s &middot; 2026-07-23 22:42</div>
+  <div class="tallies">
+    <div class="t ok"><div class="n">4/4</div><div class="l">PIES detected</div></div>
+    <div class="t ok"><div class="n">4/4</div><div class="l">SLICES detected</div></div>
+    <div class="t ok"><div class="n">6/6</div><div class="l">NEGATIVES rejected</div></div>
+    <div class="t ok"><div class="n">100.0%</div><div class="l">OVERALL (14/14)</div></div>
+  </div>
+</header>
+<div class="grid">
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/pie_margherita.jpg" alt="pie_margherita.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#f59e0b">PIE</span>
+          <span class="fname">pie_margherita.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">whole Neapolitan margherita on a plate</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.947</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1498 ms</div>
+        <div class="seen">model saw: pizza 0.95, dining table 0.56</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/pie_meatlovers_table.jpg" alt="pie_meatlovers_table.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#f59e0b">PIE</span>
+          <span class="fname">pie_meatlovers_table.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">whole meatlovers pie in open box on wooden table</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.893</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1366 ms</div>
+        <div class="seen">model saw: pizza 0.89, dining table 0.62</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/pie_supersupreme_topdown.jpg" alt="pie_supersupreme_topdown.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#f59e0b">PIE</span>
+          <span class="fname">pie_supersupreme_topdown.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">whole super supreme in delivery box, top-down</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.955</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1375 ms</div>
+        <div class="seen">model saw: pizza 0.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/pie_supreme_slicelift.jpg" alt="pie_supreme_slicelift.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#f59e0b">PIE</span>
+          <span class="fname">pie_supreme_slicelift.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">supreme pie (pepperoni/olive/mushroom), slice being lifted</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.922</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1320 ms</div>
+        <div class="seen">model saw: pizza 0.92, dining table 0.73, bottle 0.35</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/slice_beer_table.jpg" alt="slice_beer_table.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#fb923c">SLICE</span>
+          <span class="fname">slice_beer_table.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">thin-crust slice on plate with cutlery and a beer can</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.790</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1272 ms</div>
+        <div class="seen">model saw: fork 0.98, knife 0.96, pizza 0.79, dining table 0.79</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/slice_pepperoni_paperplate.jpg" alt="slice_pepperoni_paperplate.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#fb923c">SLICE</span>
+          <span class="fname">slice_pepperoni_paperplate.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">two NY pepperoni slices on a paper plate</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.568</b> &nbsp;&middot;&nbsp; 3 box(es) &nbsp;&middot;&nbsp; 1365 ms</div>
+        <div class="seen">model saw: pizza 0.57, pizza 0.44, pizza 0.40</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/slice_pepperoni_redplate.jpg" alt="slice_pepperoni_redplate.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#fb923c">SLICE</span>
+          <span class="fname">slice_pepperoni_redplate.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">single pepperoni slice on a red plate</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.940</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1309 ms</div>
+        <div class="seen">model saw: pizza 0.94</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/slice_white_plate.jpg" alt="slice_white_plate.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#fb923c">SLICE</span>
+          <span class="fname">slice_white_plate.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">white pizza slices on a plate (no red sauce - hard case)</div>
+        <div class="kv">expected <b>pizza</b> &rarr; detected <b>pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>0.456</b> &nbsp;&middot;&nbsp; 1 box(es) &nbsp;&middot;&nbsp; 1345 ms</div>
+        <div class="seen">model saw: dining table 0.87, cake 0.47, pizza 0.46</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/neg_burger_fries.jpg" alt="neg_burger_fries.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#60a5fa">NEG</span>
+          <span class="fname">neg_burger_fries.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">cheeseburger and crinkle fries in a box</div>
+        <div class="kv">expected <b>not-pizza</b> &rarr; detected <b>no pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>&mdash;</b> &nbsp;&middot;&nbsp; 0 box(es) &nbsp;&middot;&nbsp; 1316 ms</div>
+        <div class="seen">model saw: sandwich 0.91, dining table 0.43</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/neg_caesar_salad.jpg" alt="neg_caesar_salad.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#60a5fa">NEG</span>
+          <span class="fname">neg_caesar_salad.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">chicken caesar salad in plastic bowl</div>
+        <div class="kv">expected <b>not-pizza</b> &rarr; detected <b>no pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>&mdash;</b> &nbsp;&middot;&nbsp; 0 box(es) &nbsp;&middot;&nbsp; 1369 ms</div>
+        <div class="seen">model saw: fork 0.96, knife 0.74, bowl 0.53, keyboard 0.51</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/neg_cake_slice.jpg" alt="neg_cake_slice.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#60a5fa">NEG</span>
+          <span class="fname">neg_cake_slice.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">rectangular tiramisu-style cake slice on plate</div>
+        <div class="kv">expected <b>not-pizza</b> &rarr; detected <b>no pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>&mdash;</b> &nbsp;&middot;&nbsp; 0 box(es) &nbsp;&middot;&nbsp; 1379 ms</div>
+        <div class="seen">model saw: cake 0.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/neg_cake_wedge.jpg" alt="neg_cake_wedge.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#60a5fa">NEG</span>
+          <span class="fname">neg_cake_wedge.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">wedge-shaped chocolate cake slice (pizza-slice shape - hard negative)</div>
+        <div class="kv">expected <b>not-pizza</b> &rarr; detected <b>no pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>&mdash;</b> &nbsp;&middot;&nbsp; 0 box(es) &nbsp;&middot;&nbsp; 1258 ms</div>
+        <div class="seen">model saw: cake 0.95</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/neg_cat.jpg" alt="neg_cat.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#60a5fa">NEG</span>
+          <span class="fname">neg_cat.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">tabby cat sitting on a wall</div>
+        <div class="kv">expected <b>not-pizza</b> &rarr; detected <b>no pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>&mdash;</b> &nbsp;&middot;&nbsp; 0 box(es) &nbsp;&middot;&nbsp; 1340 ms</div>
+        <div class="seen">model saw: cat 0.96</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="imgwrap"><img loading="lazy" src="annotated/neg_spaghetti.jpg" alt="neg_spaghetti.jpg"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="chip" style="background:#60a5fa">NEG</span>
+          <span class="fname">neg_spaghetti.jpg</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="desc">plate of spaghetti bolognese with parmesan</div>
+        <div class="kv">expected <b>not-pizza</b> &rarr; detected <b>no pizza</b>
+            &nbsp;&middot;&nbsp; top conf <b>&mdash;</b> &nbsp;&middot;&nbsp; 0 box(es) &nbsp;&middot;&nbsp; 1351 ms</div>
+        <div class="seen">model saw: spoon 0.97, cup 0.95, dining table 0.85, bowl 0.43</div>
+      </div>
+    </div>
+</div>
+</body></html>

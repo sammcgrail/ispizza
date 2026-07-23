@@ -1,0 +1,19 @@
+{
+  "note": "Labeled eval set for the pizza detector. expected: 'pizza' | 'not-pizza'. All images CC/public from Wikimedia Commons (1280px thumbs) except the two spike originals. Every image was visually verified against its label on 2026-07-23.",
+  "images": [
+    {"file": "pie_margherita.jpg",          "group": "pie",   "expected": "pizza",     "desc": "whole Neapolitan margherita on a plate",                  "source": "pre-existing (feasibility spike); Commons 'Eq it-na pizza-margherita sep2005'"},
+    {"file": "pie_supreme_slicelift.jpg",   "group": "pie",   "expected": "pizza",     "desc": "supreme pie (pepperoni/olive/mushroom), slice being lifted", "source": "pre-existing (feasibility spike)"},
+    {"file": "pie_supersupreme_topdown.jpg","group": "pie",   "expected": "pizza",     "desc": "whole super supreme in delivery box, top-down",            "source": "https://commons.wikimedia.org/wiki/File:Super_Supreme_pizza_from_Pizza_Hut_in_Indonesia.jpg"},
+    {"file": "pie_meatlovers_table.jpg",    "group": "pie",   "expected": "pizza",     "desc": "whole meatlovers pie in open box on wooden table",         "source": "https://commons.wikimedia.org/wiki/File:BBQ_Meatlovers_Pizza,_Domino%27s_Pizza_Karawara,_2026_(01).jpg"},
+    {"file": "slice_pepperoni_redplate.jpg","group": "slice", "expected": "pizza",     "desc": "single pepperoni slice on a red plate",                    "source": "https://commons.wikimedia.org/wiki/File:Pepperoni_pizza_slice_on_a_red_plate.jpg"},
+    {"file": "slice_pepperoni_paperplate.jpg","group":"slice","expected": "pizza",     "desc": "two NY pepperoni slices on a paper plate",                 "source": "https://commons.wikimedia.org/wiki/File:Pizza_18.jpg"},
+    {"file": "slice_white_plate.jpg",       "group": "slice", "expected": "pizza",     "desc": "white pizza slices on a plate (no red sauce - hard case)", "source": "https://commons.wikimedia.org/wiki/File:Two_pizza_slices.jpg"},
+    {"file": "slice_beer_table.jpg",        "group": "slice", "expected": "pizza",     "desc": "thin-crust slice on plate with cutlery and a beer can",    "source": "https://commons.wikimedia.org/wiki/File:Slice_of_pizza_and_beer_in_Ruoholahti.jpg"},
+    {"file": "neg_spaghetti.jpg",           "group": "neg",   "expected": "not-pizza", "desc": "plate of spaghetti bolognese with parmesan",               "source": "https://commons.wikimedia.org/wiki/File:Spaghetti_bolognese_at_restaurant_Persilja.jpg"},
+    {"file": "neg_cake_slice.jpg",          "group": "neg",   "expected": "not-pizza", "desc": "rectangular tiramisu-style cake slice on plate",           "source": "https://commons.wikimedia.org/wiki/File:Piece_of_chocolate_cake_on_a_white_plate_decorated_with_chocolate_sauce.jpg"},
+    {"file": "neg_cake_wedge.jpg",          "group": "neg",   "expected": "not-pizza", "desc": "wedge-shaped chocolate cake slice (pizza-slice shape - hard negative)", "source": "https://commons.wikimedia.org/wiki/File:Slice_of_chocolate_cake_at_the_office.jpg"},
+    {"file": "neg_caesar_salad.jpg",        "group": "neg",   "expected": "not-pizza", "desc": "chicken caesar salad in plastic bowl",                     "source": "https://commons.wikimedia.org/wiki/File:Caesar_salad_in_a_plastic_bowl.jpg"},
+    {"file": "neg_burger_fries.jpg",        "group": "neg",   "expected": "not-pizza", "desc": "cheeseburger and crinkle fries in a box",                  "source": "https://commons.wikimedia.org/wiki/File:Cheeseburger_and_Fries_2.jpg"},
+    {"file": "neg_cat.jpg",                 "group": "neg",   "expected": "not-pizza", "desc": "tabby cat sitting on a wall",                              "source": "https://commons.wikimedia.org/wiki/File:Cat_November_2010-1a.jpg"}
+  ]
+}
