@@ -190,6 +190,66 @@
   "n_det": 2
  },
  {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "t1-lahmacun",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Lahmacun.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__t1-lahmacun.jpg",
+  "dims": "1600x1164",
+  "score": 0.8037,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "t1-lahmacun-acili",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/5/53/Ac%C4%B1l%C4%B1_Lahmacun.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__t1-lahmacun-acili.jpg",
+  "dims": "1600x1067",
+  "score": 0.9251,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "t2-tarte-flambee",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/9/92/January_2008%2C_tarte_flamb%C3%A9e_in_Strasbourg.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__t2-tarte-flambee.jpg",
+  "dims": "1600x1200",
+  "score": 0.7029,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "t2-flammkuchen-els",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Els%C3%A4sser_Flammkuchen_in_Strasbourg_2.JPG",
+  "file": "/root/pizza/dataset/nearpizza__bmo__t2-flammkuchen-els.jpg",
+  "dims": "1600x901",
+  "score": 0.9517,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "t3-khachapuri",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Khachapuri_Mingrelian.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__t3-khachapuri.jpg",
+  "dims": "1600x1201",
+  "score": 0.9688,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "t4-plain-flatbread",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Belokranjska_pogaca.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__t4-plain-flatbread.jpg",
+  "dims": "1600x1063",
+  "score": 0.6774,
+  "n_det": 1
+ },
+ {
   "label": "synthetic",
   "submitter": "brendbot",
   "slug": "ai-margherita",

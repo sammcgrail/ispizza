@@ -50,6 +50,13 @@ MANIFEST = [
     ("nearpizza", "gclaw", "focaccia-tomato", W + "0/08/Tomato_and_olive_focaccia.jpg"),
     ("nearpizza", "gclaw", "galette-apple",   W + "7/70/Apple_galette_%283926990412%29.jpg"),
     ("nearpizza", "gclaw", "manakish-zaatar", W + "d/d6/Manakish_%40_Marina_Caf%C3%A9_%40_Evening_%40_Abu_Dhabi_%2816042146541%29.jpg"),
+    # ---------- bmo, round 4: tiered decoys (hardest -> easiest) ----------
+    ("nearpizza", "bmo", "t1-lahmacun",        W + "c/c7/Lahmacun.jpg"),
+    ("nearpizza", "bmo", "t1-lahmacun-acili",  W + "5/53/Ac%C4%B1l%C4%B1_Lahmacun.jpg"),
+    ("nearpizza", "bmo", "t2-tarte-flambee",   W + "9/92/January_2008%2C_tarte_flamb%C3%A9e_in_Strasbourg.jpg"),
+    ("nearpizza", "bmo", "t2-flammkuchen-els", W + "a/a7/Els%C3%A4sser_Flammkuchen_in_Strasbourg_2.JPG"),
+    ("nearpizza", "bmo", "t3-khachapuri",      W + "f/f5/Khachapuri_Mingrelian.jpg"),
+    ("nearpizza", "bmo", "t4-plain-flatbread", W + "b/b4/Belokranjska_pogaca.jpg"),
     # ---------- brendbot: AI-GENERATED, quarantined ----------
     ("synthetic", "brendbot", "ai-margherita", "/root/seb/discord-attachments/1530299636986675342.jpg"),
     # ---------- app's own bundled sample ----------
