@@ -1,0 +1,267 @@
+[
+ {
+  "n": 1,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Margherita_pizza_on_plate.jpg",
+  "expected": true,
+  "note": "whole pie - margherita on plate",
+  "bytes": 3204456,
+  "file": "/root/pizza/test/claws/img01.jpeg",
+  "dims": "4032x3024",
+  "elapsed_ms": 3921,
+  "n_det": 1,
+  "top": 0.9352,
+  "all": [
+   0.9352
+  ],
+  "boxes": [
+   [
+    8.573747634887695,
+    108.09376525878906,
+    3710.089111328125,
+    2998.166259765625
+   ]
+  ]
+ },
+ {
+  "n": 2,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Pizza_Margherita_-_San_Francisco%2C_CA.jpg",
+  "expected": true,
+  "note": "whole pie - SF margherita",
+  "bytes": 1477220,
+  "file": "/root/pizza/test/claws/img02.jpeg",
+  "dims": "1978x1979",
+  "elapsed_ms": 3209,
+  "n_det": 1,
+  "top": 0.9365,
+  "all": [
+   0.9365
+  ],
+  "boxes": [
+   [
+    10.271743774414062,
+    88.62065124511719,
+    1967.242919921875,
+    1891.7625732421875
+   ]
+  ]
+ },
+ {
+  "n": 3,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Two_pizza_slices.jpg",
+  "expected": true,
+  "note": "slices - two",
+  "bytes": 2584772,
+  "file": "/root/pizza/test/claws/img03.mpo",
+  "dims": "4000x3000",
+  "elapsed_ms": 3387,
+  "n_det": 1,
+  "top": 0.432,
+  "all": [
+   0.432
+  ],
+  "boxes": [
+   [
+    604.2593994140625,
+    651.243408203125,
+    3075.146728515625,
+    2260.214599609375
+   ]
+  ]
+ },
+ {
+  "n": 4,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/White_slice_and_supreme_slice.jpg",
+  "expected": true,
+  "note": "slices - white + supreme",
+  "bytes": 1499019,
+  "file": "/root/pizza/test/claws/img04.jpeg",
+  "dims": "4288x2848",
+  "elapsed_ms": 3756,
+  "n_det": 1,
+  "top": 0.9091,
+  "all": [
+   0.9091
+  ],
+  "boxes": [
+   [
+    217.18157958984375,
+    434.93359375,
+    3372.428466796875,
+    2346.21630859375
+   ]
+  ]
+ },
+ {
+  "n": 5,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/8/85/Deep-Dish_Pizza.jpg",
+  "expected": true,
+  "note": "deep dish",
+  "bytes": 1961203,
+  "file": "/root/pizza/test/claws/img05.jpeg",
+  "dims": "2995x2971",
+  "elapsed_ms": 3367,
+  "n_det": 1,
+  "top": 0.9388,
+  "all": [
+   0.9388
+  ],
+  "boxes": [
+   [
+    5.191956520080566,
+    113.1827163696289,
+    2990.805908203125,
+    2832.768798828125
+   ]
+  ]
+ },
+ {
+  "n": 6,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Giordano%27s_Deep_Dish_Pizza.jpg",
+  "expected": true,
+  "note": "deep dish - giordanos",
+  "bytes": 650165,
+  "file": "/root/pizza/test/claws/img06.jpeg",
+  "dims": "1366x1194",
+  "elapsed_ms": 3416,
+  "n_det": 2,
+  "top": 0.8786,
+  "all": [
+   0.8786,
+   0.5443
+  ],
+  "boxes": [
+   [
+    40.23114013671875,
+    381.8262634277344,
+    1305.02880859375,
+    1183.8369140625
+   ],
+   [
+    605.508056640625,
+    0.11998915672302246,
+    1203.8087158203125,
+    790.615478515625
+   ]
+  ]
+ },
+ {
+  "n": 7,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Pizza_prosciutto_bianca.jpg",
+  "expected": true,
+  "note": "white pizza - prosciutto bianca",
+  "bytes": 9955207,
+  "file": "/root/pizza/test/claws/img07.jpeg",
+  "dims": "3806x2855",
+  "elapsed_ms": 4301,
+  "n_det": 3,
+  "top": 0.8704,
+  "all": [
+   0.8704,
+   0.8398,
+   0.4326
+  ],
+  "boxes": [
+   [
+    523.0614624023438,
+    62.69390106201172,
+    2997.771728515625,
+    2311.829345703125
+   ],
+   [
+    2673.255859375,
+    326.13909912109375,
+    3804.983154296875,
+    1762.082275390625
+   ],
+   [
+    676.661376953125,
+    1393.9033203125,
+    2564.46484375,
+    2837.921875
+   ]
+  ]
+ },
+ {
+  "n": 8,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/White_cheese_pizza.jpg",
+  "expected": true,
+  "note": "white pizza - cheese",
+  "bytes": 6789407,
+  "file": "/root/pizza/test/claws/img08.jpeg",
+  "dims": "4608x3456",
+  "elapsed_ms": 3427,
+  "n_det": 1,
+  "top": 0.9261,
+  "all": [
+   0.9261
+  ],
+  "boxes": [
+   [
+    849.5753784179688,
+    136.98989868164062,
+    3492.1396484375,
+    2710.6123046875
+   ]
+  ]
+ },
+ {
+  "n": 9,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Graduation_party_table_with_steel_tub_full_of_drinks%2C_decorative_personalized_frame_snacks_burger_sliders_pizza_bagels_glass_mason_jar_%2816892699357%29.jpg",
+  "expected": true,
+  "note": "BUSY SCENE - party table (cctv proxy)",
+  "bytes": 463180,
+  "file": "/root/pizza/test/claws/img09.jpeg",
+  "dims": "2500x1666",
+  "elapsed_ms": 3767,
+  "n_det": 0,
+  "top": 0.0,
+  "all": [],
+  "boxes": []
+ },
+ {
+  "n": 10,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Quiche_lorraine_04.jpg",
+  "expected": false,
+  "note": "CONTROL quiche lorraine",
+  "bytes": 855468,
+  "file": "/root/pizza/test/claws/img10.jpeg",
+  "dims": "2048x1536",
+  "elapsed_ms": 3347,
+  "n_det": 1,
+  "top": 0.771,
+  "all": [
+   0.771
+  ],
+  "boxes": [
+   [
+    28.32623291015625,
+    144.18695068359375,
+    1754.087158203125,
+    1254.6009521484375
+   ]
+  ]
+ },
+ {
+  "n": 11,
+  "url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Quiche_Lorraine_-_Julien_Plumart_2025-05-12.jpg",
+  "expected": false,
+  "note": "CONTROL quiche plumart",
+  "bytes": 6471755,
+  "file": "/root/pizza/test/claws/img11.jpeg",
+  "dims": "6144x8160",
+  "elapsed_ms": 5225,
+  "n_det": 1,
+  "top": 0.8582,
+  "all": [
+   0.8582
+  ],
+  "boxes": [
+   [
+    1064.572265625,
+    2548.833984375,
+    5192.298828125,
+    6322.2451171875
+   ]
+  ]
+ }
+]
