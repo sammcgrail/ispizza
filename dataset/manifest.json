@@ -1,0 +1,212 @@
+[
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "margherita-plate",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/d/de/Margherita_pizza_on_plate.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__margherita-plate.jpg",
+  "dims": "1600x1200",
+  "score": 0.9305,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "margherita-sf",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Pizza_Margherita_-_San_Francisco%2C_CA.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__margherita-sf.jpg",
+  "dims": "1599x1600",
+  "score": 0.9373,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "slices-two",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Two_pizza_slices.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__slices-two.jpg",
+  "dims": "1600x1200",
+  "score": 0.4896,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "slices-white-supreme",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/8/87/White_slice_and_supreme_slice.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__slices-white-supreme.jpg",
+  "dims": "1600x1063",
+  "score": 0.9112,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "deepdish",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/8/85/Deep-Dish_Pizza.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__deepdish.jpg",
+  "dims": "1600x1587",
+  "score": 0.938,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "deepdish-giordanos",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Giordano%27s_Deep_Dish_Pizza.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__deepdish-giordanos.jpg",
+  "dims": "1366x1194",
+  "score": 0.8825,
+  "n_det": 2
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "white-prosciutto",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Pizza_prosciutto_bianca.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__white-prosciutto.jpg",
+  "dims": "1600x1200",
+  "score": 0.8665,
+  "n_det": 3
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "white-cheese",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/e/eb/White_cheese_pizza.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__white-cheese.jpg",
+  "dims": "1600x1200",
+  "score": 0.9261,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "busy-party-table",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Graduation_party_table_with_steel_tub_full_of_drinks%2C_decorative_personalized_frame_snacks_burger_sliders_pizza_bagels_glass_mason_jar_%2816892699357%29.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__busy-party-table.jpg",
+  "dims": "1600x1066",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "quiche-lorraine-04",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Quiche_lorraine_04.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__quiche-lorraine-04.jpg",
+  "dims": "1600x1200",
+  "score": 0.7787,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "quiche-plumart",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/9/99/Quiche_Lorraine_-_Julien_Plumart_2025-05-12.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__quiche-plumart.jpg",
+  "dims": "1205x1600",
+  "score": 0.8479,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "gclaw",
+  "slug": "detroit-rectangular",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/d/db/Outsiders_Pizza_Company%2C_Detroit_Style_Pizza%2C_King_Soopers%2C_Governors_Ranch.jpg",
+  "file": "/root/pizza/dataset/pizza__gclaw__detroit-rectangular.jpg",
+  "dims": "1600x900",
+  "score": 0.8763,
+  "n_det": 2
+ },
+ {
+  "label": "pizza",
+  "submitter": "gclaw",
+  "slug": "slices-2",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/1/1b/2_Pizza_Slices.jpg",
+  "file": "/root/pizza/dataset/pizza__gclaw__slices-2.jpg",
+  "dims": "665x1280",
+  "score": 0.4962,
+  "n_det": 2
+ },
+ {
+  "label": "pizza",
+  "submitter": "gclaw",
+  "slug": "chicago-deepdish",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Chicago_Deep_Dish_%283850674567%29.jpg",
+  "file": "/root/pizza/dataset/pizza__gclaw__chicago-deepdish.jpg",
+  "dims": "1600x1200",
+  "score": 0.9106,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "quiche-lorraine",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Quiche_Lorraine.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__quiche-lorraine.jpg",
+  "dims": "480x360",
+  "score": 0.9027,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "flammkuchen",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/1/14/20161004_Flammkuchen_003_%2829519056094%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__flammkuchen.jpg",
+  "dims": "1600x1200",
+  "score": 0.9489,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "focaccia-tomato",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/0/08/Tomato_and_olive_focaccia.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__focaccia-tomato.jpg",
+  "dims": "1600x1200",
+  "score": 0.407,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "galette-apple",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/7/70/Apple_galette_%283926990412%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__galette-apple.jpg",
+  "dims": "1600x1372",
+  "score": 0.3609,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "manakish-zaatar",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Manakish_%40_Marina_Caf%C3%A9_%40_Evening_%40_Abu_Dhabi_%2816042146541%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__manakish-zaatar.jpg",
+  "dims": "1600x1200",
+  "score": 0.9218,
+  "n_det": 2
+ },
+ {
+  "label": "synthetic",
+  "submitter": "brendbot",
+  "slug": "ai-margherita",
+  "source": "/root/seb/discord-attachments/1530299636986675342.jpg",
+  "file": "/root/pizza/dataset/synthetic__brendbot__ai-margherita.jpg",
+  "dims": "1024x1024",
+  "score": 0.9647,
+  "n_det": 1
+ },
+ {
+  "label": "synthetic",
+  "submitter": "app",
+  "slug": "bundled-sample",
+  "source": "/root/pizza/pizza.png",
+  "file": "/root/pizza/dataset/synthetic__app__bundled-sample.jpg",
+  "dims": "1024x1024",
+  "score": 0.0,
+  "n_det": 0
+ }
+]
