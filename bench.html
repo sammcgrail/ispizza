@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e0f13">
+<meta name="description" content="Benchmark report for the ispizza detector: 51 adversarial images, one honest verdict.">
+<title>Pizza Detector · Benchmark</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nGPkFwn4zzCAgIWJlW0g7R91AG4HvLiewCChuYDmDmCU1M0b3onwydkQBhnjNQPnADmLTQz47MBwwIPDMQwKtkswFGovgtBX47AbBJPHpwYbYFR0bCM6DWjO/QVnX09mIyhODCA6CtRnfGFgYGBguHHtFtRSNbgcTExDS41Bc+4vhpsZPEQ7gFHVexLRIaA6+R2KpRpaanAaBm7nChFtOQMDAwOjesAMkrNhCtdkBgYGBoY533JJ1YrpAM3QeWSVA0msvQwMDAwM834XU+QAirMhpfrJd8Bv6jiAkavnBNlFceO5ZAYGBgaGeqO5ZDuAhenPX5I0vPBYBWdPPwehX7ksR1EjsSOMaPMY+VoOERUCz3zWMjAwMDCwCcoSVPvr/WMGBgYGBqktwQTVEgyBJwEbiLYYBmBqYY6W2RDAwMDAwBAS47B1zZID3shqmZj+/GVAxyExDlthbGoAmFnrFuz1RrcLawhsmLPLmwlNDBaspEQBsgNwAUaxkm1EpYF7MTuJUQYHBTwTtm6asd2bkDpGiYLNJGXDOwl7CKpRWeBCtHkkZ8MCnglbt03YiNdnTAzEm8kok7F2gNuEVErpow4YdcCQdQAAaZSo8sgEIX8AAAAASUVORK5CYII=">
+<style>
+  /* ---- sebland mobile baseline reset ---- */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  input, select, textarea { font-size: 16px; }
+  html { background: #0e0f13; }
+  html, body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: clip;
+  }
+  [hidden] { display: none !important; }
+
+  body {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #e8eaf0;
+    background:
+      radial-gradient(900px 480px at 50% -120px, rgba(255, 183, 3, 0.09), transparent 62%),
+      #0e0f13;
+    padding: calc(18px + env(safe-area-inset-top))
+             calc(16px + env(safe-area-inset-right))
+             calc(12px + env(safe-area-inset-bottom))
+             calc(16px + env(safe-area-inset-left));
+  }
+
+  main {
+    width: 100%;
+    max-width: 860px;           /* plot + gallery breathe; prose stays at 660 via .narrow */
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  main > * { min-width: 0; }
+  .narrow { width: 100%; max-width: 660px; margin: 0 auto; }
+  .narrow > * { min-width: 0; }
+
+  header { text-align: center; padding-top: 2px; }
+  h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.01em; }
+  .tagline { margin-top: 6px; color: #9aa1ad; font-size: 14px; }
+
+  .topnav { display: flex; justify-content: flex-start; }
+  .backlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 44px;
+    padding: 9px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    color: #e8eaf0;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .backlink:hover { border-color: #ffb703; background: rgba(255, 183, 3, 0.06); }
+  .backlink:focus-visible { outline: 2px solid #ffb703; outline-offset: 2px; }
+
+  /* ---- prose ---- */
+  .copy h2 { font-size: 20px; font-weight: 750; margin: 6px 0 2px; }
+  .copy h3 { font-size: 16px; font-weight: 700; margin-top: 18px; }
+  .copy h3 .no { color: #ffb703; font-variant-numeric: tabular-nums; margin-right: 6px; }
+  .copy p { margin-top: 8px; color: #cdd3dd; font-size: 15px; line-height: 1.6; }
+  .copy b, .copy strong { color: #e8eaf0; }
+  .copy .num { font-variant-numeric: tabular-nums; }
+  .copy, .copy * { -webkit-user-select: text; user-select: text; }  /* report text is quotable */
+
+  /* ---- stat tiles ---- */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .tile {
+    background: #1d212b;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    padding: 12px 14px 11px;
+    min-width: 0;
+  }
+  .tile .v {
+    font-size: 26px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .tile.hero .v { color: #ffb703; }
+  .tile .k { margin-top: 2px; font-size: 12.5px; font-weight: 650; color: #e8eaf0; }
+  .tile .s { margin-top: 2px; font-size: 11.5px; color: #9aa1ad; line-height: 1.35; }
+  @media (max-width: 700px) {
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /* ---- the do-nothing baseline ---- */
+  .baseline {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    border: 1px solid rgba(255, 107, 94, 0.4);
+    background: rgba(255, 107, 94, 0.07);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .baseline .bignum { flex: 0 0 auto; text-align: center; }
+  .baseline .bignum .v {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ff8a7f;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .baseline .bignum .k {
+    margin-top: 2px;
+    font-size: 10.5px;
+    line-height: 1.35;
+    color: #9aa1ad;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-weight: 650;
+  }
+  .baseline p { font-size: 14px; line-height: 1.55; color: #e8eaf0; min-width: 0; }
+  .baseline p b { color: #ff8a7f; }
+  .baseline, .baseline * { -webkit-user-select: text; user-select: text; }
+  @media (max-width: 420px) {
+    .baseline { gap: 13px; padding: 12px 13px; }
+    .baseline .bignum .v { font-size: 26px; }
+  }
+
+  /* ---- the adversarial caveat ---- */
+  .caveat {
+    border: 1px solid rgba(255, 183, 3, 0.38);
+    background: rgba(255, 183, 3, 0.06);
+    border-radius: 14px;
+    padding: 13px 16px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #e8eaf0;
+  }
+  .caveat b { color: #ffb703; }
+  .caveat, .caveat * { -webkit-user-select: text; user-select: text; }
+
+  /* ---- cards ---- */
+  .card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 18px 18px 16px;
+  }
+  .card > * { min-width: 0; }
+  .card h2 { font-size: 19px; font-weight: 750; }
+  .card .sub { margin-top: 3px; color: #9aa1ad; font-size: 13.5px; }
+
+  /* ---- threshold slider ---- */
+  .thr-block { margin-top: 16px; }
+  .thr-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9aa1ad;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 44px;               /* full-height touch target */
+    margin-top: 2px;
+    background: transparent;
+    touch-action: none;         /* horizontal drag must win over page scroll */
+    cursor: pointer;
+  }
+  input[type="range"]:focus-visible { outline: 2px solid #ffb703; outline-offset: 2px; border-radius: 10px; }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    margin-top: -10px;
+    border-radius: 50%;
+    background: #ffb703;
+    border: 3px solid #0e0f13;
+    box-shadow: 0 0 0 1px rgba(255, 183, 3, 0.55), 0 3px 10px rgba(0, 0, 0, 0.5);
+  }
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffb703;
+    border: 3px solid #0e0f13;
+    box-shadow: 0 0 0 1px rgba(255, 183, 3, 0.55), 0 3px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    margin-top: 6px;
+    font-size: 14px;
+    color: #9aa1ad;
+    font-variant-numeric: tabular-nums;
+  }
+  .readout b { color: #e8eaf0; font-weight: 750; }
+  .readout .bad b { color: #ff8a7f; }
+
+  /* accuracy scale: where the moving needle can actually get to */
+  .track-wrap { margin: 22px 0 4px; }
+  .track-cap { font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: #667085; }
+  .track {
+    position: relative;
+    height: 74px;
+    margin-top: 2px;
+  }
+  .track .rail {
+    position: absolute;
+    left: 0; right: 0; top: 27px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 1px;
+  }
+  .track .rail-dim {              /* the zone the needle never reaches */
+    position: absolute;
+    top: 27px;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+  .track .end {
+    position: absolute;
+    top: 32px;
+    font-size: 10.5px;
+    color: #667085;
+    font-variant-numeric: tabular-nums;
+  }
+  .track .end.r { right: 0; }
+  .track .tick {
+    position: absolute;
+    top: 20px;
+    width: 1.5px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateX(-50%);
+  }
+  .track .tick.gold { background: #ffb703; }
+  .track .tick.mbt {
+    top: 17px;
+    height: 22px;
+    width: 2px;
+    background: #ff8a7f;
+  }
+  .track .ticklab {
+    position: absolute;
+    font-size: 11px;
+    color: #9aa1ad;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .track .ticklab.above { top: 2px; color: #ffb703; }
+  .track .ticklab.below { top: 42px; }
+  .track .ticklab.mb { top: 59px; color: #ff8a7f; }
+  .track .needle {
+    position: absolute;
+    top: 21.5px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #ffb703;
+    border: 2.5px solid #0e0f13;
+    box-shadow: 0 0 0 1px rgba(255, 183, 3, 0.6);
+    transform: translateX(-50%);
+    transition: left 0.1s linear;
+  }
+
+  .thr-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    margin-top: 10px;
+  }
+  .btn {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #221703;
+    background: #ffb703;
+    border-radius: 999px;
+    padding: 9px 18px;
+    min-height: 44px;
+    transition: filter 0.12s ease, transform 0.08s ease;
+  }
+  .btn:hover { filter: brightness(1.07); }
+  .btn:active { transform: translateY(1px); }
+  .btn:focus-visible { outline: 2px solid #ffb703; outline-offset: 2px; }
+  .btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e8eaf0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .btn.ghost:hover { filter: none; border-color: rgba(255, 255, 255, 0.4); }
+  .thr-actions .hint { font-size: 12.5px; color: #9aa1ad; font-variant-numeric: tabular-nums; }
+
+  .bestnote {
+    margin-top: 12px;
+    border: 1px solid rgba(255, 183, 3, 0.45);
+    background: rgba(255, 183, 3, 0.07);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #e8eaf0;
+    font-variant-numeric: tabular-nums;
+  }
+  .bestnote b { color: #ffb703; }
+
+  /* ---- plot ---- */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: #9aa1ad;
+  }
+  .legend .it { display: inline-flex; align-items: center; gap: 6px; }
+  .legend svg { display: block; }
+  .plotwrap { margin-top: 6px; }
+  .plotwrap svg { display: block; width: 100%; height: auto; }
+  .plotwrap text { pointer-events: none; }
+  .dot .halo { opacity: 0; transition: opacity 0.15s ease; }
+  .dot.err .halo { opacity: 1; }
+  .dot .selring { opacity: 0; }
+  .dot.sel .selring { opacity: 1; }
+  .dot .hit { cursor: pointer; }
+  .dot .hit:focus { outline: none; }
+  .dot .hit:focus-visible + .selring-focus { opacity: 1; }
+
+  /* ---- inspector ---- */
+  .inspector {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 12px;
+    min-height: 96px;
+    background: #1d212b;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+  .inspector .ph { color: #667085; font-size: 13.5px; }
+  .inspector img {
+    width: 104px;
+    height: 78px;
+    object-fit: cover;
+    border-radius: 9px;
+    background: #14161c;
+    flex: 0 0 auto;
+  }
+  .inspector .info { min-width: 0; flex: 1 1 auto; }
+  .inspector .cap { font-size: 14px; font-weight: 650; line-height: 1.35; }
+  .inspector .meta {
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: #9aa1ad;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .inspector .meta b { color: #ffb703; font-size: 14px; }
+  .inspector .verdict.bad { color: #ff8a7f; }
+  .inspector .verdict.ok { color: #cdd3dd; }
+  .inspector a { color: #9aa1ad; }
+  .inspector a:hover { color: #e8eaf0; }
+
+  /* ---- gallery ---- */
+  .group { margin-top: 6px; }
+  .group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    margin: 18px 0 4px;
+  }
+  .group-head h3 { font-size: 16.5px; font-weight: 750; }
+  .group-head .cnt { color: #9aa1ad; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .group-head .live { margin-left: auto; color: #9aa1ad; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  .group-head .live.bad { color: #ff8a7f; }
+  .group-desc { color: #9aa1ad; font-size: 13px; margin-bottom: 10px; line-height: 1.5; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .gtile {
+    background: #171b24;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .gtile .imga { display: block; }
+  .gtile .imga:focus-visible { outline: 2px solid #ffb703; outline-offset: -2px; }
+  .gtile img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: #14161c;
+  }
+  .gtile .body { padding: 8px 10px 9px; display: flex; flex-direction: column; gap: 4px; flex: 1 1 auto; }
+  .gtile .cap { font-size: 12.5px; line-height: 1.35; color: #e8eaf0; }
+  .gtile .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .gtile .score { font-size: 13.5px; font-weight: 750; color: #ffb703; }
+  .gtile .score.zero { color: #9aa1ad; }
+  .gtile .badge { font-size: 11.5px; font-weight: 650; color: #9aa1ad; text-align: right; }
+  .gtile .badge.bad { color: #ff8a7f; }
+  .gtile .row2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    font-size: 10.5px;
+    color: #667085;
+  }
+  .gtile .row2 a { color: #667085; text-decoration: underline; text-underline-offset: 2px; }
+  .gtile .row2 a:hover { color: #9aa1ad; }
+  .gtile.syn { opacity: 0.85; }
+
+  /* ---- load / error states ---- */
+  .loading {
+    text-align: center;
+    color: #9aa1ad;
+    font-size: 14px;
+    padding: 26px 0;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.5; } }
+  .errorbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 107, 94, 0.35);
+    background: rgba(255, 107, 94, 0.08);
+    color: #ffb4ac;
+    border-radius: 12px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .errorbox > * { min-width: 0; }
+
+  footer {
+    flex-shrink: 0;
+    padding: 26px 0 6px;
+    color: #667085;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.7;
+  }
+  footer a { color: #9aa1ad; }
+
+  .sr {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 420px) {
+    h1 { font-size: 23px; }
+    .tile .v { font-size: 22px; }
+    .card { padding: 14px 13px 13px; }
+    .inspector img { width: 88px; height: 66px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav class="topnav narrow">
+    <a class="backlink" href="/">&#8592; back to the detector</a>
+  </nav>
+
+  <header class="narrow">
+    <h1>🍕 The Benchmark</h1>
+    <p class="tagline">Is it a pizza detector? No. It is a topped-baked-dough detector.</p>
+  </header>
+
+  <section class="copy narrow">
+    <p>The detector behind this site is <span id="cModel">RF-DETR (COCO-pretrained)</span>.
+    A Discord channel of AI bots (bmo, tinyclaw, gclaw, brendbot) spent a day sourcing
+    <b><span class="num" id="cNTotal">…</span> images</b> specifically to break it:
+    real pizzas, convincing impostors, printed pictures of pizza, and outright traps.
+    This page is the scored result.</p>
+  </section>
+
+  <div id="loadState" class="loading narrow">loading benchmark data…</div>
+  <div id="loadError" class="errorbox narrow" hidden>
+    <span id="loadErrorMsg">could not load benchmark data</span>
+    <button id="reloadBtn" class="btn ghost" type="button">Retry</button>
+  </div>
+
+  <div id="report" hidden>
+    <section class="tiles" aria-label="headline results">
+      <div class="tile hero">
+        <div class="v" id="tAuroc">–</div>
+        <div class="k">AUROC</div>
+        <div class="s">ranking power across all thresholds; 0.5 is a coin flip</div>
+      </div>
+      <div class="tile">
+        <div class="v" id="tAcc">–</div>
+        <div class="k">accuracy</div>
+        <div class="s" id="tAccSub">at the shipped threshold</div>
+      </div>
+      <div class="tile">
+        <div class="v" id="tFP">–</div>
+        <div class="k">false alarms</div>
+        <div class="s" id="tFPSub">not-pizzas that fired</div>
+      </div>
+      <div class="tile">
+        <div class="v" id="tFN">–</div>
+        <div class="k">missed pizzas</div>
+        <div class="s" id="tFNSub">real pizzas that did not fire</div>
+      </div>
+    </section>
+
+    <section class="baseline" id="mbCard" hidden>
+      <div class="bignum">
+        <div class="v" id="mbVal">–</div>
+        <div class="k" id="mbKey">always answer<br>"not pizza"</div>
+      </div>
+      <p id="mbCopy"></p>
+    </section>
+
+    <section class="caveat" style="margin-top:12px">
+      <b>This set is rigged, on purpose.</b> <span id="cRigged">Most of the not-pizzas were
+      hand-picked by the bots specifically to look like pizza,</span> so the numbers above are
+      not the model's accuracy on ordinary photos; on a random camera roll, with a different
+      mix, both the accuracy and the do-nothing baseline would look different. What this
+      benchmark measures is the hard case, and there the result stands: once an image is
+      pizza-adjacent, the confidence score tells you almost nothing.
+    </section>
+
+    <section class="card" style="margin-top:8px" id="plotCard">
+      <h2>Find a threshold that works</h2>
+      <p class="sub">Drag it. The errors move around; they never go away.</p>
+
+      <div class="thr-block">
+        <label class="thr-label" for="thr">detection threshold</label>
+        <input type="range" id="thr" min="0.05" max="0.95" step="0.001" value="0.35"
+               aria-describedby="readout">
+        <div class="readout" id="readout">
+          <span>threshold <b id="roT">–</b></span>
+          <span>accuracy <b id="roAcc">–</b> <span id="roFrac"></span></span>
+          <span class="bad"><b id="roFP">–</b> false alarms</span>
+          <span class="bad"><b id="roFN">–</b> missed pizzas</span>
+        </div>
+        <div class="sr" aria-live="polite" id="srLive"></div>
+
+        <div class="track-wrap">
+          <div class="track-cap">accuracy, 0&#8202;&#8211;&#8202;100%</div>
+          <div class="track">
+            <div class="rail"></div>
+            <div class="rail-dim" id="railDim" hidden></div>
+            <span class="end">0</span><span class="end r">100</span>
+            <div class="tick" style="left:50%"></div>
+            <div class="ticklab below" style="left:50%">coin flip 50%</div>
+            <div class="tick mbt" id="tickMb" hidden></div>
+            <div class="ticklab mb" id="tickMbLab" hidden></div>
+            <div class="tick gold" id="tickBest"></div>
+            <div class="ticklab above" id="tickBestLab">best</div>
+            <div class="needle" id="needle"></div>
+          </div>
+        </div>
+
+        <div class="thr-actions">
+          <button class="btn ghost" type="button" id="btnShip">shipped · –</button>
+          <button class="btn ghost" type="button" id="btnBest">best · –</button>
+          <span class="hint" id="bestHint"></span>
+        </div>
+        <div class="bestnote" id="bestNote" hidden></div>
+      </div>
+
+      <div class="legend" aria-hidden="true">
+        <span class="it"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#ffb703" stroke="#0e0f13" stroke-width="1"/></svg> real pizza, should fire</span>
+        <span class="it"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1 L13 7 L7 13 L1 7 Z" fill="#10131a" stroke="#6ea8fe" stroke-width="1.8"/></svg> not pizza, should stay quiet</span>
+        <span class="it"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="none" stroke="#ff6b5e" stroke-width="1.8"/></svg> wrong at this threshold</span>
+      </div>
+      <div class="plotwrap" id="plotwrap"></div>
+
+      <div class="inspector" id="inspector">
+        <span class="ph">hover or tap a dot to see the image behind it</span>
+      </div>
+    </section>
+
+    <section class="copy narrow" id="findings">
+      <h2>What the images established</h2>
+
+      <h3><span class="no">1</span>No threshold separates pizza from not-pizza</h3>
+      <p>The best fake in the set, a round Mingrelian khachapuri, scores
+      <b class="num" id="cBestFake">0.969</b>. Every one of the
+      <span class="num" id="cNPos">19</span> real pizzas scores at or below it.
+      Flammkuchen reaches 0.946, a tomato tart 0.945, tarte flambée 0.941, pissaladière 0.932,
+      garlic naan and quiche both 0.910. Some of that is defensible: flammkuchen, pissaladière
+      and manakish would fool plenty of humans too. Defensible or not, the two classes
+      interleave across the whole scale, so no cutoff can sort them. The slider above is the
+      proof; the best setting there is, <b class="num" id="cBestT">–</b>, still only reaches
+      <b class="num" id="cBestAcc">–</b><span id="cMajClause"></span>.</p>
+
+      <h3><span class="no">2</span>It fires on pictures of pizza</h3>
+      <p>A supermarket freezer aisle scores <b class="num">0.922</b>. Every pizza in that frame
+      is package art printed on cardboard; there is no pizza present. Plain closed pizza boxes
+      score 0.000, so cardboard is not the trigger. Printed images of pizza are. That matters
+      the moment you point a camera at the real world: a 0.9 from this model means pizza-shaped
+      pixels are in view, not that pizza is.</p>
+
+      <h3><span class="no">3</span>Shape is not the signal</h3>
+      <p>Detroit-style rectangular pizza scores 0.866. In a matched pair of khachapuri, the
+      round one scores 0.969 and the boat-shaped one 0.938, a gap of 0.031. Round, square,
+      boat: the model does not care.</p>
+
+      <h3><span class="no">4</span>Red sauce is not the signal</h3>
+      <p>White pizzas with no sauce in sight score 0.870 and 0.926. Broccoli pizza scores
+      0.777. Take away the red and the score barely moves.</p>
+
+      <h3><span class="no">5</span>Toppings are load-bearing</h3>
+      <p>A bare pita scores 0.079. A bare herbed flatbread scores 0.100. Real pizza crusts
+      with the toppings eaten off score 0.000. Dough alone is invisible to the model; dough
+      with things scattered on it is "pizza". That is the whole trick it learned.</p>
+
+      <h3><span class="no">6</span>One total blind spot</h3>
+      <p>A tray of mini pizza bagels on a busy party table scores 0.000. We cropped that photo
+      17 times, progressively tighter, down to a 250&#215;300 zoom where the bagels fill the
+      frame. Every crop scores 0.000. So it is not a resolution problem, and tiled inference
+      would not fix it. The model does not know this pizza format exists.</p>
+
+      <h3><span class="no">7</span>The fix is not a knob</h3>
+      <p>Two repairs are ruled out by experiment. Threshold tuning fails because no threshold
+      separates the classes (finding 1). Tiled inference fails because the blind spot survives
+      a 17-step zoom (finding 6). What remains is training data: COCO's pizza class encodes
+      what topped baked dough looks like, and nothing about what pizza actually is.</p>
+    </section>
+
+    <section id="gallery">
+      <div class="narrow copy">
+        <h2>The images</h2>
+        <p class="group-desc" style="margin-top:6px">Grouped by what they actually are. The
+        &#10003;/&#10007; badges follow the slider threshold above; thumbnails link to their
+        Wikimedia Commons source pages.</p>
+      </div>
+      <div id="groups"></div>
+    </section>
+
+    <section id="synthSec" hidden>
+      <div class="narrow copy">
+        <h3 style="margin-top:4px">AI-generated submissions, not scored</h3>
+        <p class="group-desc" style="margin-top:6px" id="synthDesc"></p>
+      </div>
+      <div class="grid" id="synthGrid"></div>
+    </section>
+  </div>
+
+  <noscript><p style="text-align:center;color:#ffb4ac">This report needs JavaScript to render its data.</p></noscript>
+</main>
+
+<footer id="foot">
+  <span id="footMeta">RF-DETR · benchmark report</span><br>
+  images via Wikimedia Commons, credited per tile · <a href="/">🍕 back to the detector</a>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var GOLD = '#ffb703', BLUE = '#6ea8fe', ERR = '#ff6b5e', MUTED = '#9aa1ad', DIM = '#667085';
+
+  /* ---- mobile baseline: kill iOS loupe on the interactive surfaces,
+         but leave the report prose selectable/quotable ---- */
+  document.addEventListener('selectstart', function (e) {
+    var t = e.target;
+    if (t && t.closest && t.closest('.copy, .caveat, input, textarea')) return;
+    e.preventDefault();
+  });
+  document.addEventListener('contextmenu', function (e) {
+    var t = e.target;
+    if (t && t.closest && t.closest('svg, img, input[type="range"]')) e.preventDefault();
+  });
+
+  var DATA = null, SCORED = [], SYNTH = [];
+  var SHIP = 0.35, T = 0.35, BEST = null;
+  var dotEls = [], tileRefs = [], groupRefs = [], plotRefs = null;
+  var selIdx = -1;
+
+  function num(v, d) { var n = Number(v); return isFinite(n) ? n : d; }
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function fmtT(t) { return String(parseFloat(t.toFixed(3))); }
+  function fmtPct(x) { return (x * 100).toFixed(1) + '%'; }
+  function esc(el2, txt) { el2.textContent = txt == null ? '' : String(txt); }
+  function h(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+  function s(tag, attrs) {
+    var e = document.createElementNS(SVGNS, tag);
+    if (attrs) for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function safeHttp(u) {
+    return (typeof u === 'string' && /^https?:\/\//i.test(u)) ? u : null;
+  }
+  function safeRel(u) {
+    /* thumbs are same-origin relative paths; refuse anything scheme-ish */
+    return (typeof u === 'string' && u && !/^[a-z][a-z0-9+.-]*:/i.test(u) && u.charAt(0) !== '/') ? u
+      : (typeof u === 'string' && u.charAt(0) === '/' && u.charAt(1) !== '/') ? u : null;
+  }
+
+  /* =============== data load =============== */
+  function load() {
+    $('loadState').hidden = false;
+    $('loadError').hidden = true;
+    fetch('/bench_data.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(init)
+      .catch(function (err) {
+        $('loadState').hidden = true;
+        esc($('loadErrorMsg'), 'Could not load benchmark data (' + (err && err.message ? err.message : 'error') + '). The report renders from /bench_data.json.');
+        $('loadError').hidden = false;
+      });
+  }
+  $('reloadBtn').addEventListener('click', load);
+
+  /* =============== stats =============== */
+  function statsAt(t) {
+    var fp = 0, fn = 0, i, im;
+    for (i = 0; i < SCORED.length; i++) {
+      im = SCORED[i];
+      if (im.score >= t) { if (!im.expected) fp++; }
+      else if (im.expected) fn++;
+    }
+    var n = SCORED.length;
+    return { fp: fp, fn: fn, correct: n - fp - fn, n: n, acc: n ? (n - fp - fn) / n : 0 };
+  }
+
+  function computeBest(summary) {
+    var bestC = -1, plateau = [], t, st;
+    for (t = 50; t <= 950; t++) {           /* 0.050 → 0.950 by 0.001, float-safe */
+      st = statsAt(t / 1000);
+      if (st.correct > bestC) { bestC = st.correct; plateau = [t]; }
+      else if (st.correct === bestC) plateau.push(t);
+    }
+    var pick = plateau[Math.floor(plateau.length / 2)] / 1000;
+    /* if the server's sweep found the same optimum, use its threshold verbatim */
+    var sv = num(summary && summary.best_threshold, NaN);
+    if (isFinite(sv) && sv >= 0.05 && sv <= 0.95 && statsAt(sv).correct === bestC) pick = sv;
+    var stt = statsAt(pick);
+    return { t: pick, acc: stt.acc, fp: stt.fp, fn: stt.fn, correct: stt.correct };
+  }
+
+  /* =============== init =============== */
+  function init(data) {
+    if (!data || !Array.isArray(data.images) || !data.images.length) {
+      throw new Error('malformed data');
+    }
+    DATA = data;
+    var imgs = data.images.filter(function (im) { return im && typeof im.score === 'number' && isFinite(im.score); });
+    SCORED = imgs.filter(function (im) { return im.label !== 'synthetic'; });
+    SYNTH = imgs.filter(function (im) { return im.label === 'synthetic'; });
+    if (!SCORED.length) throw new Error('no scored images');
+
+    SHIP = clamp(num(data.ship_threshold, 0.35), 0.05, 0.95);
+    T = SHIP;
+    var sum = data.summary || {};
+    BEST = computeBest(sum);
+
+    var nPos = 0, nNeg = 0;
+    SCORED.forEach(function (im) { if (im.expected) nPos++; else nNeg++; });
+    var atShip = statsAt(SHIP);
+
+    /* headline tiles: prefer the server's summary, fall back to local math */
+    esc($('tAuroc'), isFinite(num(sum.auroc, NaN)) ? num(sum.auroc, 0).toFixed(3) : '–');
+    esc($('tAcc'), fmtPct(num(sum.accuracy, atShip.acc)));
+    esc($('tAccSub'), 'at the shipped threshold of ' + fmtT(SHIP) + ' (' +
+      num(sum.n_correct, atShip.correct) + ' of ' + num(sum.n_scored, atShip.n) + ' calls right)');
+    esc($('tFP'), num(sum.false_positives, atShip.fp));
+    esc($('tFPSub'), 'of ' + num(sum.n_negative, nNeg) + ' not-pizzas fired anyway');
+    esc($('tFN'), num(sum.false_negatives, atShip.fn));
+    esc($('tFNSub'), 'of ' + num(sum.n_positive, nPos) + ' real pizzas went undetected');
+
+    /* the do-nothing baseline: the single most damning number */
+    var MB = num(sum.majority_baseline, NaN);
+    var beats = sum.beats_majority === true;
+    var majName = num(sum.n_negative, nNeg) >= num(sum.n_positive, nPos) ? 'not pizza' : 'pizza';
+    if (isFinite(MB)) {
+      esc($('mbVal'), fmtPct(MB));
+      $('mbKey').innerHTML = '';
+      $('mbKey').appendChild(document.createTextNode('always answer'));
+      $('mbKey').appendChild(document.createElement('br'));
+      $('mbKey').appendChild(document.createTextNode('“' + majName + '”'));
+      var bf = num(sum.best_fake_score, NaN);
+      var strictLoss = BEST.acc < MB - 1e-9;
+      var mbMsg;
+      if (!beats) {
+        mbMsg = 'That is the accuracy of ignoring the model and calling every image “' +
+          majName + '”. The detector’s best threshold manages ' + fmtPct(BEST.acc) +
+          '. On this set, the dumbest possible strategy ' +
+          (strictLoss ? 'beats the model' : 'does just as well as the model') +
+          (isFinite(bf) ? ('; the only thresholds that reach the baseline sit above ' + bf.toFixed(3) +
+          ', the best fake’s score, where the detector simply never fires.') : '.');
+      } else {
+        mbMsg = 'That is the accuracy of ignoring the model and calling every image “' +
+          majName + '”. The detector’s best threshold reaches ' + fmtPct(BEST.acc) +
+          ', so it does clear the do-nothing baseline. Not by much.';
+      }
+      esc($('mbCopy'), mbMsg);
+      $('mbCard').hidden = false;
+      /* reference line on the accuracy scale: the needle should visibly never cross it */
+      $('railDim').hidden = false;
+      $('railDim').style.left = (MB * 100) + '%';
+      $('tickMb').hidden = false;
+      $('tickMb').style.left = (MB * 100) + '%';
+      var mbl = $('tickMbLab');
+      mbl.hidden = false;
+      mbl.style.left = clamp(MB * 100, 26, 74) + '%';
+      esc(mbl, 'always “' + majName + '” ' + fmtPct(MB));
+      BEST.mb = MB;
+      BEST.beats = beats;
+      BEST.majName = majName;
+      if (!beats) {
+        esc($('cMajClause'), (strictLoss ? ', which loses to the ' : ', no better than the ') +
+          fmtPct(MB) + ' you get by answering “' + majName + '” every single time');
+      }
+    }
+
+    /* copy injections */
+    esc($('cNTotal'), data.images.length);
+    var nNegShown = num(sum.n_negative, nNeg);
+    esc($('cRigged'), (nNegShown === 30 ? '26 of the 30' : 'Most of the ' + nNegShown) +
+      ' not-pizzas were hand-picked by the bots specifically to look like pizza,');
+    esc($('cNPos'), num(sum.n_positive, nPos));
+    esc($('cBestFake'), num(sum.best_fake_score, NaN) ? num(sum.best_fake_score, 0).toFixed(3) : '0.969');
+    esc($('cBestT'), fmtT(BEST.t));
+    esc($('cBestAcc'), fmtPct(BEST.acc));
+    if (data.model) esc($('cModel'), data.model);
+
+    /* slider + actions */
+    var thr = $('thr');
+    thr.value = String(SHIP);
+    thr.addEventListener('input', function () {
+      T = clamp(num(thr.value, SHIP), 0.05, 0.95);
+      renderT();
+    });
+    thr.addEventListener('change', function () {
+      var st = statsAt(T);
+      esc($('srLive'), 'threshold ' + fmtT(T) + ', accuracy ' + fmtPct(st.acc) +
+        ', ' + st.fp + ' false alarms, ' + st.fn + ' missed pizzas');
+    });
+    esc($('btnShip'), 'shipped · ' + fmtT(SHIP));
+    esc($('btnBest'), 'best · ' + fmtT(BEST.t));
+    esc($('bestHint'), 'best achievable: ' + fmtPct(BEST.acc) + ' at ' + fmtT(BEST.t));
+    $('btnShip').addEventListener('click', function () { snapTo(SHIP); });
+    $('btnBest').addEventListener('click', function () { snapTo(BEST.t); });
+
+    /* accuracy scale ticks */
+    $('tickBest').style.left = (BEST.acc * 100) + '%';
+    var lab = $('tickBestLab');
+    lab.style.left = clamp(BEST.acc * 100, 8, 92) + '%';
+    esc(lab, 'best ' + fmtPct(BEST.acc));
+
+    buildPlot();
+    buildGallery();
+    buildSynth();
+
+    var genAt = data.generated_at ? new Date(data.generated_at) : null;
+    var bits = [data.model || 'RF-DETR'];
+    var med = num(sum.median_ms, NaN);
+    if (isFinite(med)) bits.push('median inference ' + (med / 1000).toFixed(1) + 's');
+    if (genAt && !isNaN(genAt.getTime())) {
+      bits.push('generated ' + genAt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }));
+    }
+    esc($('footMeta'), bits.join(' · '));
+
+    $('loadState').hidden = true;
+    $('report').hidden = false;
+    renderT(true);
+
+    var rT = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(rT);
+      rT = setTimeout(function () { buildPlot(); renderT(true); }, 150);
+    });
+  }
+
+  function snapTo(t) {
+    T = clamp(t, 0.05, 0.95);
+    $('thr').value = String(T);
+    renderT();
+    $('thr').dispatchEvent(new Event('change'));
+  }
+
+  /* =============== beeswarm layout =============== */
+  function beeswarm(items, xOf, D) {
+    /* greedy: smallest |offset| that clears every already-placed neighbour */
+    var placed = [], out = new Array(items.length), maxAbs = 0;
+    var order = items.map(function (_, i) { return i; })
+      .sort(function (a, b) { return xOf(items[a]) - xOf(items[b]) || (items[a].slug > items[b].slug ? 1 : -1); });
+    order.forEach(function (idx) {
+      var x = xOf(items[idx]);
+      var iv = [];
+      for (var j = 0; j < placed.length; j++) {
+        var dx = Math.abs(x - placed[j].x);
+        if (dx < D) {
+          var dy = Math.sqrt(D * D - dx * dx);
+          iv.push([placed[j].y - dy, placed[j].y + dy]);
+        }
+      }
+      var cands = [0];
+      iv.forEach(function (p) { cands.push(p[0], p[1]); });
+      cands.sort(function (a, b) { return Math.abs(a) - Math.abs(b); });
+      var y = 0, k, c, ok, m;
+      for (k = 0; k < cands.length; k++) {
+        c = cands[k]; ok = true;
+        for (m = 0; m < iv.length; m++) {
+          if (c > iv[m][0] + 1e-6 && c < iv[m][1] - 1e-6) { ok = false; break; }
+        }
+        if (ok) { y = c; break; }
+      }
+      placed.push({ x: x, y: y });
+      out[idx] = y;
+      if (Math.abs(y) > maxAbs) maxAbs = Math.abs(y);
+    });
+    return { offsets: out, maxAbs: maxAbs };
+  }
+
+  /* =============== plot =============== */
+  function buildPlot() {
+    var wrap = $('plotwrap');
+    wrap.textContent = '';
+    dotEls = [];
+    var W = Math.max(300, wrap.clientWidth || 640);
+    var padL = 10, padR = 16;
+    var x0 = padL, x1 = W - padR;
+    var xOf = function (sc) { return x0 + clamp(sc, 0, 1) * (x1 - x0); };
+
+    var pos = [], neg = [];
+    SCORED.forEach(function (im, i) { (im.expected ? pos : neg).push({ im: im, i: i }); });
+
+    var R = 6, D = 2 * R + 1.6;
+    var bwPos = beeswarm(pos.map(function (p) { return p.im; }), function (im) { return xOf(im.score); }, D);
+    var bwNeg = beeswarm(neg.map(function (p) { return p.im; }), function (im) { return xOf(im.score); }, D);
+    var posH = Math.max(52, 2 * (bwPos.maxAbs + R + 6));
+    var negH = Math.max(52, 2 * (bwNeg.maxAbs + R + 6));
+
+    var chipTop = 4, chipH = 20;
+    var posLabY = chipTop + chipH + 16;
+    var posTop = posLabY + 8;
+    var negLabY = posTop + posH + 20;
+    var negTop = negLabY + 8;
+    var axisY = negTop + negH + 10;
+    var H = axisY + 34;
+
+    var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img' });
+    svg.setAttribute('aria-label', 'Strip plot of detector confidence for every benchmark image. Real pizzas in the top band, not-pizzas in the bottom band. The two bands overlap across the whole score range.');
+    svg.id = 'plotSvg';
+
+    /* fires-zone tint (right of threshold) */
+    var tint = s('rect', { y: posTop - 4, height: axisY - posTop + 4, fill: 'rgba(255,183,3,0.045)', x: xOf(T), width: Math.max(0, x1 - xOf(T)) });
+    svg.appendChild(tint);
+
+    /* band labels */
+    var lp = s('text', { x: x0, y: posLabY, 'font-size': '11', 'letter-spacing': '0.06em', fill: MUTED, 'font-weight': '650' });
+    lp.textContent = 'REAL PIZZA · SHOULD FIRE (' + pos.length + ')';
+    svg.appendChild(lp);
+    var ln = s('text', { x: x0, y: negLabY, 'font-size': '11', 'letter-spacing': '0.06em', fill: MUTED, 'font-weight': '650' });
+    ln.textContent = 'NOT PIZZA · SHOULD STAY QUIET (' + neg.length + ')';
+    svg.appendChild(ln);
+
+    /* axis */
+    svg.appendChild(s('line', { x1: x0, y1: axisY, x2: x1, y2: axisY, stroke: 'rgba(255,255,255,0.22)', 'stroke-width': 1 }));
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (tv) {
+      var tx = xOf(tv);
+      svg.appendChild(s('line', { x1: tx, y1: axisY, x2: tx, y2: axisY + 4, stroke: 'rgba(255,255,255,0.22)', 'stroke-width': 1 }));
+      var tl = s('text', { x: tx, y: axisY + 16, 'font-size': '10.5', fill: DIM, 'text-anchor': 'middle' });
+      tl.textContent = String(tv);
+      svg.appendChild(tl);
+    });
+    var at = s('text', { x: (x0 + x1) / 2, y: axisY + 30, 'font-size': '10.5', fill: DIM, 'text-anchor': 'middle', 'letter-spacing': '0.05em' });
+    at.textContent = 'model confidence';
+    svg.appendChild(at);
+
+    /* dots */
+    function addDot(entry, cy0, off) {
+      var im = entry.im, idx = entry.i;
+      var cx = xOf(im.score), cy = cy0 + off;
+      var g = s('g', { 'class': 'dot ' + (im.expected ? 'pos' : 'neg') });
+      g.appendChild(s('circle', { 'class': 'halo', cx: cx, cy: cy, r: R + 4, fill: 'none', stroke: ERR, 'stroke-width': 2 }));
+      g.appendChild(s('circle', { 'class': 'selring', cx: cx, cy: cy, r: R + 6.5, fill: 'none', stroke: '#e8eaf0', 'stroke-width': 1.4, 'stroke-dasharray': '3 3' }));
+      if (im.expected) {
+        g.appendChild(s('circle', { cx: cx, cy: cy, r: R, fill: GOLD, stroke: '#0e0f13', 'stroke-width': 1.2 }));
+      } else {
+        var d = 'M ' + cx + ' ' + (cy - (R + 1.2)) + ' L ' + (cx + R + 1.2) + ' ' + cy +
+                ' L ' + cx + ' ' + (cy + R + 1.2) + ' L ' + (cx - (R + 1.2)) + ' ' + cy + ' Z';
+        g.appendChild(s('path', { d: d, fill: '#10131a', stroke: BLUE, 'stroke-width': 2 }));
+      }
+      var hit = s('circle', { 'class': 'hit', cx: cx, cy: cy, r: 13, fill: '#000', 'fill-opacity': '0' });
+      hit.setAttribute('tabindex', '0');
+      hit.setAttribute('role', 'button');
+      hit.setAttribute('aria-label', (im.caption || im.slug || 'image') + ', score ' + im.score.toFixed(3) + ', ' + (im.expected ? 'real pizza' : 'not pizza'));
+      hit.addEventListener('pointerenter', function () { select(idx); });
+      hit.addEventListener('click', function () { select(idx); });
+      hit.addEventListener('focus', function () { select(idx); });
+      hit.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(idx); }
+      });
+      g.appendChild(hit);
+      svg.appendChild(g);
+      dotEls[idx] = g;
+    }
+    pos.forEach(function (p, k) { addDot(p, posTop + posH / 2, bwPos.offsets[k]); });
+    neg.forEach(function (p, k) { addDot(p, negTop + negH / 2, bwNeg.offsets[k]); });
+
+    /* threshold line + chip (drawn last, on top) */
+    var thrG = s('g', {});
+    thrG.style.transition = 'transform 0.08s linear';
+    thrG.appendChild(s('line', { x1: 0, y1: posTop - 4, x2: 0, y2: axisY, stroke: GOLD, 'stroke-width': 1.6 }));
+    var chipG = s('g', {});
+    var chipW = 46;
+    chipG.appendChild(s('rect', { x: -chipW / 2, y: chipTop, width: chipW, height: chipH, rx: 9, fill: GOLD }));
+    var chipT = s('text', { x: 0, y: chipTop + 14, 'font-size': '11.5', 'font-weight': '700', fill: '#221703', 'text-anchor': 'middle' });
+    chipT.textContent = fmtT(T);
+    chipG.appendChild(chipT);
+    thrG.appendChild(chipG);
+    svg.appendChild(thrG);
+
+    wrap.appendChild(svg);
+    plotRefs = { thrG: thrG, chipG: chipG, chipT: chipT, tint: tint, xOf: xOf, x0: x0, x1: x1, chipW: chipW };
+  }
+
+  /* =============== selection / inspector =============== */
+  var VERDICT = {
+    tp: ['✓ caught', 'ok'], fn: ['✗ missed', 'bad'],
+    fp: ['✗ false alarm', 'bad'], tn: ['✓ stays quiet', 'ok']
+  };
+  function verdictOf(im, t) {
+    var fired = im.score >= t;
+    return im.expected ? (fired ? VERDICT.tp : VERDICT.fn) : (fired ? VERDICT.fp : VERDICT.tn);
+  }
+  var LABEL_NAMES = { pizza: 'real pizza', nearpizza: 'near-pizza', depiction: 'depiction', poisoned: 'trap', synthetic: 'AI-generated' };
+
+  var inspVerdict = null;
+  function select(idx) {
+    if (idx === selIdx) { updateInspVerdict(); return; }
+    if (selIdx >= 0 && dotEls[selIdx]) dotEls[selIdx].classList.remove('sel');
+    selIdx = idx;
+    if (dotEls[idx]) dotEls[idx].classList.add('sel');
+    var im = SCORED[idx];
+    var box = $('inspector');
+    box.textContent = '';
+    var t = safeRel(im.thumb);
+    if (t) {
+      var img = document.createElement('img');
+      img.alt = im.caption || im.slug || '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = t;
+      img.addEventListener('error', function () { img.remove(); });
+      box.appendChild(img);
+    }
+    var info = h('div', 'info');
+    info.appendChild(h('div', 'cap', im.caption || im.slug || 'untitled'));
+    var meta = h('div', 'meta');
+    var sb = h('b', null, im.score.toFixed(3));
+    meta.appendChild(sb);
+    meta.appendChild(document.createTextNode(' · ' + (LABEL_NAMES[im.label] || im.label || '?') +
+      (im.submitter ? ' · via ' + im.submitter : '') +
+      (im.dims ? ' · ' + im.dims : '') + ' · '));
+    inspVerdict = h('span', 'verdict');
+    meta.appendChild(inspVerdict);
+    var src = safeHttp(im.source);
+    if (src) {
+      meta.appendChild(document.createTextNode(' · '));
+      var a = document.createElement('a');
+      a.href = src;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = 'Wikimedia Commons';
+      meta.appendChild(a);
+    }
+    info.appendChild(meta);
+    box.appendChild(info);
+    updateInspVerdict();
+  }
+  function updateInspVerdict() {
+    if (selIdx < 0 || !inspVerdict) return;
+    var v = verdictOf(SCORED[selIdx], T);
+    inspVerdict.textContent = v[0] + ' at ' + fmtT(T);
+    inspVerdict.className = 'verdict ' + v[1];
+  }
+
+  /* =============== gallery =============== */
+  var GROUPS = [
+    ['pizza', 'Real pizza', 'Ground truth: should fire. Margheritas to Detroit squares to party-table pizza bagels.'],
+    ['nearpizza', 'Near-pizza', 'Real topped doughs that are not pizza: khachapuri, flammkuchen, quiche, pissaladière, naan. Should stay quiet.'],
+    ['depiction', 'Depictions', 'Pictures of pizza rather than pizza: package art, prints, screens. No pizza in frame. Should stay quiet.'],
+    ['poisoned', 'Traps', 'Sabotaged submissions from the channel: leftovers, decoys, stickers.']
+  ];
+
+  function makeTile(im, extraClass) {
+    var tile = h('article', 'gtile' + (extraClass ? ' ' + extraClass : ''));
+    var t = safeRel(im.thumb), src = safeHttp(im.source);
+    var img = null;
+    if (t) {
+      img = document.createElement('img');
+      img.alt = im.caption || im.slug || '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = t;
+      img.addEventListener('error', function () { img.style.display = 'none'; });
+      if (src) {
+        var a = document.createElement('a');
+        a.className = 'imga';
+        a.href = src;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', (im.caption || im.slug || 'image') + ' on Wikimedia Commons');
+        a.appendChild(img);
+        tile.appendChild(a);
+      } else {
+        tile.appendChild(img);
+      }
+    }
+    var body = h('div', 'body');
+    body.appendChild(h('div', 'cap', im.caption || im.slug || 'untitled'));
+    var row = h('div', 'row');
+    var sc = h('span', 'score' + (im.score < 0.05 ? ' zero' : ''), im.score.toFixed(3));
+    row.appendChild(sc);
+    var badge = h('span', 'badge', '');
+    row.appendChild(badge);
+    body.appendChild(row);
+    var row2 = h('div', 'row2');
+    row2.appendChild(h('span', null, im.submitter ? 'via ' + im.submitter : ''));
+    if (src) {
+      var ca = document.createElement('a');
+      ca.href = src;
+      ca.target = '_blank';
+      ca.rel = 'noopener';
+      ca.textContent = 'Wikimedia Commons';
+      row2.appendChild(ca);
+    }
+    body.appendChild(row2);
+    tile.appendChild(body);
+    return { tile: tile, badge: badge };
+  }
+
+  function buildGallery() {
+    var root = $('groups');
+    root.textContent = '';
+    tileRefs = [];
+    groupRefs = [];
+    var byLabel = {};
+    SCORED.forEach(function (im) {
+      var l = im.label || 'other';
+      (byLabel[l] = byLabel[l] || []).push(im);
+    });
+    var order = GROUPS.map(function (g) { return g[0]; });
+    Object.keys(byLabel).forEach(function (l) { if (order.indexOf(l) < 0) order.push(l); });
+
+    order.forEach(function (labelKey) {
+      var items = byLabel[labelKey];
+      if (!items || !items.length) return;
+      var meta = null;
+      for (var gi = 0; gi < GROUPS.length; gi++) if (GROUPS[gi][0] === labelKey) meta = GROUPS[gi];
+      items = items.slice().sort(function (a, b) { return b.score - a.score; });
+
+      var sec = h('div', 'group');
+      var head = h('div', 'group-head');
+      head.appendChild(h('h3', null, meta ? meta[1] : labelKey));
+      head.appendChild(h('span', 'cnt', items.length + (items.length === 1 ? ' image' : ' images')));
+      var live = h('span', 'live', '');
+      head.appendChild(live);
+      sec.appendChild(head);
+      if (meta) sec.appendChild(h('p', 'group-desc', meta[2]));
+      var grid = h('div', 'grid');
+      var refs = [];
+      items.forEach(function (im) {
+        var made = makeTile(im, null);
+        grid.appendChild(made.tile);
+        refs.push({ im: im, badge: made.badge });
+        tileRefs.push({ im: im, badge: made.badge });
+      });
+      sec.appendChild(grid);
+      root.appendChild(sec);
+      groupRefs.push({ live: live, refs: refs });
+    });
+  }
+
+  function buildSynth() {
+    if (!SYNTH.length) return;
+    $('synthSec').hidden = false;
+    esc($('synthDesc'), SYNTH.length + (SYNTH.length === 1 ? ' submission' : ' submissions') +
+      ' turned out to be AI-generated. Shown for completeness; excluded from every number on this page.');
+    var grid = $('synthGrid');
+    grid.textContent = '';
+    SYNTH.forEach(function (im) {
+      var made = makeTile(im, 'syn');
+      esc(made.badge, 'not scored');
+      grid.appendChild(made.tile);
+    });
+  }
+
+  /* =============== live render =============== */
+  function renderT(force) {
+    var st = statsAt(T);
+    esc($('roT'), fmtT(T));
+    esc($('roAcc'), fmtPct(st.acc));
+    esc($('roFrac'), '(' + st.correct + '/' + st.n + ')');
+    esc($('roFP'), st.fp);
+    esc($('roFN'), st.fn);
+    $('needle').style.left = (st.acc * 100) + '%';
+    $('thr').setAttribute('aria-valuetext', fmtT(T) + ', accuracy ' + fmtPct(st.acc));
+
+    if (plotRefs) {
+      var px = plotRefs.xOf(T);
+      plotRefs.thrG.style.transform = 'translate(' + px + 'px, 0)';
+      var cx = clamp(px, plotRefs.x0 + plotRefs.chipW / 2, plotRefs.x1 - plotRefs.chipW / 2);
+      plotRefs.chipG.style.transform = 'translate(' + (cx - px) + 'px, 0)';
+      plotRefs.chipT.textContent = fmtT(T);
+      plotRefs.tint.setAttribute('x', px);
+      plotRefs.tint.setAttribute('width', Math.max(0, plotRefs.x1 - px));
+    }
+
+    for (var i = 0; i < SCORED.length; i++) {
+      var im = SCORED[i], g = dotEls[i];
+      if (!g) continue;
+      var wrong = (im.score >= T) !== !!im.expected;
+      if (wrong) g.classList.add('err'); else g.classList.remove('err');
+    }
+
+    for (var k = 0; k < tileRefs.length; k++) {
+      var r = tileRefs[k], v = verdictOf(r.im, T);
+      r.badge.textContent = v[0];
+      r.badge.className = 'badge' + (v[1] === 'bad' ? ' bad' : '');
+    }
+    for (var gi = 0; gi < groupRefs.length; gi++) {
+      var gr = groupRefs[gi], wrongN = 0;
+      for (var m = 0; m < gr.refs.length; m++) {
+        if ((gr.refs[m].im.score >= T) !== !!gr.refs[m].im.expected) wrongN++;
+      }
+      gr.live.textContent = wrongN + ' of ' + gr.refs.length + ' wrong here';
+      gr.live.className = 'live' + (wrongN ? ' bad' : '');
+    }
+
+    updateInspVerdict();
+
+    var note = $('bestNote');
+    if (BEST && Math.abs(T - BEST.t) < 0.0015) {
+      note.textContent = '';
+      var b1 = h('b', null, 'This is as good as it gets. ');
+      note.appendChild(b1);
+      var tail = '. A coin flip gets 50%. There is no good setting; the knob is not the problem.';
+      if (isFinite(num(BEST.mb, NaN)) && !BEST.beats) {
+        tail = '. And this ceiling is ' +
+          (BEST.acc < BEST.mb - 1e-9 ? 'still below' : 'no better than') + ' the ' + fmtPct(BEST.mb) +
+          ' you get by always answering “' + BEST.majName + '”. There is no good setting; the knob is not the problem.';
+      }
+      note.appendChild(document.createTextNode(
+        fmtPct(BEST.acc) + ' at ' + fmtT(BEST.t) + ', and even here ' + BEST.fp +
+        (BEST.fp === 1 ? ' fake still passes' : ' fakes still pass') + ' and ' + BEST.fn +
+        (BEST.fn === 1 ? ' real pizza is refused' : ' real pizzas are refused') + tail));
+      note.hidden = false;
+    } else {
+      note.hidden = true;
+    }
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>

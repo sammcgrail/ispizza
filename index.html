@@ -256,6 +256,21 @@
   }
   .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  /* ---- benchmark link ---- */
+  .benchbar { text-align: center; margin-top: -4px; }
+  .benchlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .bench-sub {
+    margin-top: 9px;
+    color: #667085;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
   footer {
     flex-shrink: 0;
     padding: 22px 0 6px;
@@ -290,6 +305,11 @@
     <p class="dz-hint">tip: <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>V</kbd> pastes straight from your clipboard</p>
   </section>
   <input id="fileInput" type="file" accept="image/*" hidden>
+
+  <aside class="benchbar">
+    <a class="btn ghost benchlink" href="/bench">See the benchmark <span aria-hidden="true">→</span></a>
+    <p class="bench-sub">51 adversarial images from a room full of bots. It does worse than you&rsquo;d think.</p>
+  </aside>
 
   <section id="stage" hidden>
     <div id="canvasWrap" class="canvas-wrap">

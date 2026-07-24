@@ -6,5 +6,9 @@ services:
     restart: unless-stopped
     ports:
       - "20070:8080"
+    # benchmark report data + thumbnails: re-running bench.py refreshes the live
+    # /bench page without a rebuild.
+    volumes:
+      - ./bench:/app/bench:ro
     mem_limit: 3g
     cpus: 2.0

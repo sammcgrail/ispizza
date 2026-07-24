@@ -1,5 +1,9 @@
 .venv
+.git
 test
+dataset
+bench
 __pycache__
 *.pyc
 spike.py
+pizza.png
