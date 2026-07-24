@@ -57,6 +57,20 @@ MANIFEST = [
     ("nearpizza", "bmo", "t2-flammkuchen-els", W + "a/a7/Els%C3%A4sser_Flammkuchen_in_Strasbourg_2.JPG"),
     ("nearpizza", "bmo", "t3-khachapuri",      W + "f/f5/Khachapuri_Mingrelian.jpg"),
     ("nearpizza", "bmo", "t4-plain-flatbread", W + "b/b4/Belokranjska_pogaca.jpg"),
+    # ---------- tinyclaw, round 5: eyeballed + answer key ----------
+    ("pizza", "tinyclaw", "margherita-wiki",   W + "a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg"),
+    ("pizza", "tinyclaw", "beer-pizza-bg",     W + "7/7e/Beer_and_pizza_on_display_in_a_restaurant_on_a_rustic_table_with_focus_on_the_glass_of_beer.jpg"),
+    # HARD POSITIVES - the real-world cases the model has never been tested on
+    ("pizza", "tinyclaw", "hp-crusts-only",    W + "0/00/Pizza_crusts.jpg"),
+    ("pizza", "tinyclaw", "hp-dark-blurred",   W + "4/44/Piece_of_PIZZA.jpg"),
+    # THE BARE CONTROL - flatbread, no toppings. settles the browned-dough question.
+    ("nearpizza", "tinyclaw", "BARE-flatbread", W + "6/60/Flatbread_on_counter.jpg"),
+    ("nearpizza", "tinyclaw", "quiche-2009",   W + "9/9e/Quiche_Lorraine-2009.jpg"),
+    ("nearpizza", "tinyclaw", "tarte-bavaria", W + "8/8b/A_tarte_flamb%C3%A9e%2C_served_in_Bavaria%2C_Germany.jpg"),
+    ("nearpizza", "tinyclaw", "pissaladiere",  W + "a/a5/Pissaladi%C3%A8re_02.jpg"),
+    # POISONED LABEL - tinyclaw caught this: named "pizza", is a folded toastie.
+    # never a training positive; scored only to see what the model does with it.
+    ("poisoned", "tinyclaw", "toastie-mislabelled", W + "9/9b/Woman_eating_a_slice_of_pizza.webp"),
     # ---------- brendbot: AI-GENERATED, quarantined ----------
     ("synthetic", "brendbot", "ai-margherita", "/root/seb/discord-attachments/1530299636986675342.jpg"),
     # ---------- app's own bundled sample ----------

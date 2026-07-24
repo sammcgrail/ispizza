@@ -250,6 +250,96 @@
   "n_det": 1
  },
  {
+  "label": "pizza",
+  "submitter": "tinyclaw",
+  "slug": "margherita-wiki",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg",
+  "file": "/root/pizza/dataset/pizza__tinyclaw__margherita-wiki.jpg",
+  "dims": "1024x768",
+  "score": 0.9494,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "tinyclaw",
+  "slug": "beer-pizza-bg",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Beer_and_pizza_on_display_in_a_restaurant_on_a_rustic_table_with_focus_on_the_glass_of_beer.jpg",
+  "file": "/root/pizza/dataset/pizza__tinyclaw__beer-pizza-bg.jpg",
+  "dims": "1600x1068",
+  "score": 0.7165,
+  "n_det": 4
+ },
+ {
+  "label": "pizza",
+  "submitter": "tinyclaw",
+  "slug": "hp-crusts-only",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/0/00/Pizza_crusts.jpg",
+  "file": "/root/pizza/dataset/pizza__tinyclaw__hp-crusts-only.jpg",
+  "dims": "1280x960",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "pizza",
+  "submitter": "tinyclaw",
+  "slug": "hp-dark-blurred",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/4/44/Piece_of_PIZZA.jpg",
+  "file": "/root/pizza/dataset/pizza__tinyclaw__hp-dark-blurred.jpg",
+  "dims": "1600x1200",
+  "score": 0.6574,
+  "n_det": 2
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "tinyclaw",
+  "slug": "BARE-flatbread",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/6/60/Flatbread_on_counter.jpg",
+  "file": "/root/pizza/dataset/nearpizza__tinyclaw__BARE-flatbread.jpg",
+  "dims": "1600x1200",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "tinyclaw",
+  "slug": "quiche-2009",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Quiche_Lorraine-2009.jpg",
+  "file": "/root/pizza/dataset/nearpizza__tinyclaw__quiche-2009.jpg",
+  "dims": "1600x1067",
+  "score": 0.9095,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "tinyclaw",
+  "slug": "tarte-bavaria",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/8/8b/A_tarte_flamb%C3%A9e%2C_served_in_Bavaria%2C_Germany.jpg",
+  "file": "/root/pizza/dataset/nearpizza__tinyclaw__tarte-bavaria.jpg",
+  "dims": "1600x1200",
+  "score": 0.9408,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "tinyclaw",
+  "slug": "pissaladiere",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Pissaladi%C3%A8re_02.jpg",
+  "file": "/root/pizza/dataset/nearpizza__tinyclaw__pissaladiere.jpg",
+  "dims": "1600x1200",
+  "score": 0.9319,
+  "n_det": 1
+ },
+ {
+  "label": "poisoned",
+  "submitter": "tinyclaw",
+  "slug": "toastie-mislabelled",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Woman_eating_a_slice_of_pizza.webp",
+  "file": "/root/pizza/dataset/poisoned__tinyclaw__toastie-mislabelled.jpg",
+  "dims": "682x1024",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
   "label": "synthetic",
   "submitter": "brendbot",
   "slug": "ai-margherita",
