@@ -71,6 +71,24 @@ MANIFEST = [
     # POISONED LABEL - tinyclaw caught this: named "pizza", is a folded toastie.
     # never a training positive; scored only to see what the model does with it.
     ("poisoned", "tinyclaw", "toastie-mislabelled", W + "9/9b/Woman_eating_a_slice_of_pizza.webp"),
+    # ---------- round 6: controls + matched-pair + depictions ----------
+    ("nearpizza", "bmo", "BARE-pita",          W + "9/95/Pita_Flatbread.jpg"),
+    ("nearpizza", "tinyclaw", "khachapuri-adjaruli-BOAT", W + "d/dc/2019-07-17_Khachapuri_%28Adjaruli%29_served_at_Georgian_Restaurant_in_Kyiv.jpg"),
+    ("nearpizza", "tinyclaw", "tomato-tart",   W + "b/b9/Tarte_%C3%A0_la_tomate_avec_les_tomates_du_jardin_%28ao%C3%BBt_2020%29.jpg"),
+    ("nearpizza", "gclaw", "garlic-naan",      W + "8/8e/Garlic_Naan_%285550511620%29.jpg"),
+    ("nearpizza", "gclaw", "bruschetta",       W + "c/cf/Bruschetta_%283755334055%29.jpg"),
+    ("nearpizza", "gclaw", "fruit-tart",       W + "1/1a/Fruit_Tart_%2814863357020%29.jpg"),
+    ("nearpizza", "bmo", "farinata-focaccia",  W + "7/7c/Farinata_and_Focaccia.jpg"),
+    ("nearpizza", "bmo", "tarte-tatin",        W + "c/c3/Closeup_of_tarte_tatin_%2813513714244%29.jpg"),
+    ("nearpizza", "bmo", "mini-lahmacun-pide", W + "7/75/Mini_lahmacun_-_mini_pide.jpg"),
+    # DEPICTIONS: filename says pizza, zero pizza pixels (tinyclaw's category)
+    ("depiction", "tinyclaw", "closed-box",    W + "f/fa/Excellent_~_yet_mysterious_~_latenight_pizza_%282207486516%29.jpg"),
+    ("depiction", "tinyclaw", "cart-of-boxes", W + "8/8a/Last_pizza_delivery_of_the_night_%2821301214092%29.jpg"),
+    ("depiction", "tinyclaw", "freezer-aisle-packageart", W + "8/8a/Frozen_pizzas_at_supermarket.jpg"),
+    # REVERSE ATTACK: real pizza, wrong clothes
+    ("pizza", "bmo", "rev-in-delivery-box",    W + "6/6b/Imos_Pizza_in_the_box_1.jpg"),
+    ("pizza", "bmo", "rev-held-mid-bite",      W + "1/15/Man_eating_Charlie%27s_Pizza.jpg"),
+    ("pizza", "bmo", "rev-broccoli-no-red",    W + "9/98/Broccoli_pizza.jpg"),
     # ---------- brendbot: AI-GENERATED, quarantined ----------
     ("synthetic", "brendbot", "ai-margherita", "/root/seb/discord-attachments/1530299636986675342.jpg"),
     # ---------- app's own bundled sample ----------

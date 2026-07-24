@@ -340,6 +340,156 @@
   "n_det": 0
  },
  {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "BARE-pita",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/9/95/Pita_Flatbread.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__BARE-pita.jpg",
+  "dims": "1024x588",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "tinyclaw",
+  "slug": "khachapuri-adjaruli-BOAT",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/d/dc/2019-07-17_Khachapuri_%28Adjaruli%29_served_at_Georgian_Restaurant_in_Kyiv.jpg",
+  "file": "/root/pizza/dataset/nearpizza__tinyclaw__khachapuri-adjaruli-BOAT.jpg",
+  "dims": "1600x1200",
+  "score": 0.938,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "tinyclaw",
+  "slug": "tomato-tart",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Tarte_%C3%A0_la_tomate_avec_les_tomates_du_jardin_%28ao%C3%BBt_2020%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__tinyclaw__tomato-tart.jpg",
+  "dims": "1585x1600",
+  "score": 0.945,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "garlic-naan",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Garlic_Naan_%285550511620%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__garlic-naan.jpg",
+  "dims": "1600x1200",
+  "score": 0.9104,
+  "n_det": 1
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "bruschetta",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Bruschetta_%283755334055%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__bruschetta.jpg",
+  "dims": "1600x1207",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "gclaw",
+  "slug": "fruit-tart",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Fruit_Tart_%2814863357020%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__gclaw__fruit-tart.jpg",
+  "dims": "1600x829",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "farinata-focaccia",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Farinata_and_Focaccia.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__farinata-focaccia.jpg",
+  "dims": "1024x768",
+  "score": 0.726,
+  "n_det": 2
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "tarte-tatin",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Closeup_of_tarte_tatin_%2813513714244%29.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__tarte-tatin.jpg",
+  "dims": "1600x1067",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "nearpizza",
+  "submitter": "bmo",
+  "slug": "mini-lahmacun-pide",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/7/75/Mini_lahmacun_-_mini_pide.jpg",
+  "file": "/root/pizza/dataset/nearpizza__bmo__mini-lahmacun-pide.jpg",
+  "dims": "1600x1200",
+  "score": 0.7524,
+  "n_det": 2
+ },
+ {
+  "label": "depiction",
+  "submitter": "tinyclaw",
+  "slug": "closed-box",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Excellent_~_yet_mysterious_~_latenight_pizza_%282207486516%29.jpg",
+  "file": "/root/pizza/dataset/depiction__tinyclaw__closed-box.jpg",
+  "dims": "1356x1054",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "depiction",
+  "submitter": "tinyclaw",
+  "slug": "cart-of-boxes",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Last_pizza_delivery_of_the_night_%2821301214092%29.jpg",
+  "file": "/root/pizza/dataset/depiction__tinyclaw__cart-of-boxes.jpg",
+  "dims": "1200x1600",
+  "score": 0.0,
+  "n_det": 0
+ },
+ {
+  "label": "depiction",
+  "submitter": "tinyclaw",
+  "slug": "freezer-aisle-packageart",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Frozen_pizzas_at_supermarket.jpg",
+  "file": "/root/pizza/dataset/depiction__tinyclaw__freezer-aisle-packageart.jpg",
+  "dims": "1201x1600",
+  "score": 0.922,
+  "n_det": 9
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "rev-in-delivery-box",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Imos_Pizza_in_the_box_1.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__rev-in-delivery-box.jpg",
+  "dims": "640x483",
+  "score": 0.9164,
+  "n_det": 1
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "rev-held-mid-bite",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/1/15/Man_eating_Charlie%27s_Pizza.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__rev-held-mid-bite.jpg",
+  "dims": "1067x1600",
+  "score": 0.8871,
+  "n_det": 2
+ },
+ {
+  "label": "pizza",
+  "submitter": "bmo",
+  "slug": "rev-broccoli-no-red",
+  "source": "https://upload.wikimedia.org/wikipedia/commons/9/98/Broccoli_pizza.jpg",
+  "file": "/root/pizza/dataset/pizza__bmo__rev-broccoli-no-red.jpg",
+  "dims": "1600x1063",
+  "score": 0.7774,
+  "n_det": 3
+ },
+ {
   "label": "synthetic",
   "submitter": "brendbot",
   "slug": "ai-margherita",
